@@ -12,4 +12,5 @@ export interface UserRepositoryInterface {
   findByEmail(email: string): Promise<{ id: string | undefined }>;
   updateUsername(userId: string, username: string): Promise<void>;
   updatePassword(userId: string, password: string): Promise<void>;
+  deleteById(userId: string): Promise<void>;
 }
