@@ -34,5 +34,8 @@
   },
   "dependencies": {
     "prisma": "^3.13.0"
+  },
+  "prisma": {
+    "schema": "src/infra/external/prisma"
   }
 }
