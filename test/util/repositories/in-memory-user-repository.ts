@@ -27,6 +27,25 @@ export class InMemoryUserRepository implements UserRepositoryInterface {
     };
   }
 
+  public async findById(id: string) {
+    const userOrEmpty = this.users.find((user) => user.id === parseInt(id));
+
+    if (typeof userOrEmpty === 'object')
+      return {
+        id: userOrEmpty.id.toString(),
+        username: userOrEmpty.username,
+        email: userOrEmpty.email,
+        password: userOrEmpty.password,
+      };
+
+    return {
+      id: undefined,
+      username: undefined,
+      email: undefined,
+      password: undefined,
+    };
+  }
+
   public async findByUsername(username: string) {
     const userOrEmpty = this.users.find((user) => user.username === username);
 
@@ -53,6 +72,22 @@ export class InMemoryUserRepository implements UserRepositoryInterface {
     };
   }
 
+  public async updateUsername(userId: string, username: string) {
+    const index = this.users.findIndex((user) => user.id === parseInt(userId));
+
+    this.users[index].username = username;
+
+    return;
+  }
+
+  public async updatePassword(userId: string, password: string) {
+    const index = this.users.findIndex((user) => user.id === parseInt(userId));
+
+    this.users[index].password = password;
+
+    return;
+  }
+
   public async delete(id: string) {
     const index = this.users.findIndex(
       (user: userData) => user.id === parseInt(id),
@@ -63,6 +98,12 @@ export class InMemoryUserRepository implements UserRepositoryInterface {
 
       return;
     }
+
+    return;
+  }
+
+  public async deleteMany() {
+    this.users = [];
 
     return;
   }
