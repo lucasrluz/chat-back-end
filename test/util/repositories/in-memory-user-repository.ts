@@ -88,9 +88,9 @@ export class InMemoryUserRepository implements UserRepositoryInterface {
     return;
   }
 
-  public async delete(id: string) {
+  public async deleteById(userId: string) {
     const index = this.users.findIndex(
-      (user: userData) => user.id === parseInt(id),
+      (user: userData) => user.id === parseInt(userId),
     );
 
     if (index !== -1) {
