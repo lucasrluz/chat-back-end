@@ -1,4 +1,4 @@
-export function success(value: any) {
+export function success(value?: any) {
   return {
     value,
     isSuccess: () => true,
