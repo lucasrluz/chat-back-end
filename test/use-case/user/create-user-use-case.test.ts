@@ -18,7 +18,7 @@ describe('Create user use case tests', () => {
     expect(response.isError()).toEqual(false);
     expect(response.value).toEqual({ id: '0' });
 
-    await userRepository.delete(response.value.id);
+    await userRepository.deleteMany();
   });
 
   it('Should not save user', async () => {
@@ -28,7 +28,7 @@ describe('Create user use case tests', () => {
       password: '123456',
     };
 
-    const successResponse = await createUserUseCase.perform(userData);
+    await createUserUseCase.perform(userData);
 
     const errorResponse = await createUserUseCase.perform(userData);
 
@@ -36,7 +36,7 @@ describe('Create user use case tests', () => {
     expect(errorResponse.isSuccess()).toEqual(false);
     expect(errorResponse.value).toEqual('This username already exists');
 
-    await userRepository.delete(successResponse.value.id);
+    await userRepository.deleteMany();
   });
 
   it('Should not save user', async () => {
@@ -52,7 +52,7 @@ describe('Create user use case tests', () => {
       password: '123456',
     };
 
-    const successResponse = await createUserUseCase.perform(userData1);
+    await createUserUseCase.perform(userData1);
 
     const errorResponse = await createUserUseCase.perform(userData2);
 
@@ -60,6 +60,6 @@ describe('Create user use case tests', () => {
     expect(errorResponse.isSuccess()).toEqual(false);
     expect(errorResponse.value).toEqual('This email already exists');
 
-    await userRepository.delete(successResponse.value.id);
+    await userRepository.deleteMany();
   });
 });
