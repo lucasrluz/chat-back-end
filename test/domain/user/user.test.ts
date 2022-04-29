@@ -391,15 +391,15 @@ describe('User domain tests', () => {
   describe('Password tests', () => {
     it('Should return error message for creating password', () => {
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: '12345' },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: '12345',
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -413,15 +413,15 @@ describe('User domain tests', () => {
       const password: any = true;
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -433,15 +433,15 @@ describe('User domain tests', () => {
       const password: any = false;
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -453,15 +453,15 @@ describe('User domain tests', () => {
       const password: any = undefined;
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -473,15 +473,15 @@ describe('User domain tests', () => {
       const password: any = null;
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -493,15 +493,15 @@ describe('User domain tests', () => {
       const password: any = 0;
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
@@ -513,15 +513,15 @@ describe('User domain tests', () => {
       const password: any = { value: '123456' };
 
       const userData = {
-        username: { value: 'a' },
-        email: { value: 'a@gmail.com' },
-        password: { value: password },
+        username: 'a',
+        email: 'a@gmail.com',
+        password: password,
       };
 
       const userOrError = User.create(
-        userData.username.value,
-        userData.email.value,
-        userData.password.value,
+        userData.username,
+        userData.email,
+        userData.password,
       );
 
       expect(userOrError.isError()).toEqual(true);
