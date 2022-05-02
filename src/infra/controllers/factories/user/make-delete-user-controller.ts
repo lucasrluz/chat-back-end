@@ -1,6 +1,6 @@
-import { DeleteUserUseCase } from '../../../use-case/user/delete-user-use-case';
-import { PrismaUserRepository } from '../../external/prisma/repositories/prisma-user-repository';
-import { DeleteUserController } from '../delete-user-controller';
+import { DeleteUserUseCase } from '../../../../use-case/user/delete-user-use-case';
+import { PrismaUserRepository } from '../../../external/prisma/repositories/prisma-user-repository';
+import { DeleteUserController } from '../../delete-user-controller';
 
 export async function makeDeleteUserController() {
   const userRepository = new PrismaUserRepository();
