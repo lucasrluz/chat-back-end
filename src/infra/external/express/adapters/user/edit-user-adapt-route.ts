@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { makeEditUserController } from '../../../controllers/factories/make-edit-user-controller';
+import { makeEditUserController } from '../../../../controllers/factories/make-edit-user-controller';
 
 export function editUserAdaptRoute() {
   return async (req: Request, res: Response) => {
