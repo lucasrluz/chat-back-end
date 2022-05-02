@@ -1,5 +1,6 @@
 import { UserInterface } from '../../domain/user/interface/user-interface';
 import { User } from '../../domain/user/user';
+import { createHashPassword } from '../../infra/external/bcrypt/create-hash-password';
 import { UserRepositoryInterface } from '../../infra/repositories/user-repository-interface';
 import { error, success } from '../../shared/response';
 
@@ -24,6 +25,10 @@ export class CreateUserUseCase {
     const findUserByEmail = await this.userRepository.findByEmail(user.email);
 
     if (findUserByEmail.id) return error('This email already exists');
+
+    const hashPassword = await createHashPassword(user.password);
+
+    user.password = hashPassword;
 
     const createUserResponse = await this.userRepository.create(user);
 
