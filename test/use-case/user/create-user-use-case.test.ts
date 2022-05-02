@@ -1,3 +1,4 @@
+import { compareHashPassword } from '../../../src/infra/external/bcrypt/compare-hash-password';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
 
@@ -11,12 +12,20 @@ describe('Create user use case tests', () => {
       email: 'a@gmail.com',
       password: '123456',
     };
-
     const response = await createUserUseCase.perform(userData);
 
     expect(response.isSuccess()).toEqual(true);
     expect(response.isError()).toEqual(false);
     expect(response.value).toEqual({ id: '0' });
+
+    const user = await userRepository.findById('0');
+
+    const comprarePassword = await compareHashPassword(
+      userData.password,
+      user.password!,
+    );
+
+    expect(comprarePassword).toEqual(true);
 
     await userRepository.deleteMany();
   });
