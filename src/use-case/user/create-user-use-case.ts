@@ -28,9 +28,11 @@ export class CreateUserUseCase {
 
     const hashPassword = await createHashPassword(user.password);
 
-    user.password = hashPassword;
-
-    const createUserResponse = await this.userRepository.create(user);
+    const createUserResponse = await this.userRepository.create({
+      username: user.username,
+      email: user.email,
+      password: hashPassword,
+    });
 
     return success({
       id: createUserResponse.id,

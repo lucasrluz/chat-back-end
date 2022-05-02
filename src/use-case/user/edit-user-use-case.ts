@@ -1,5 +1,7 @@
 import { Password } from '../../domain/user/password';
 import { Username } from '../../domain/user/username';
+import { compareHashPassword } from '../../infra/external/bcrypt/compare-hash-password';
+import { createHashPassword } from '../../infra/external/bcrypt/create-hash-password';
 import { UserRepositoryInterface } from '../../infra/repositories/user-repository-interface';
 import { error, success } from '../../shared/response';
 
@@ -38,10 +40,14 @@ export class EditUserUseCase {
       );
     }
 
-    if (editUserData.password !== userOrEmpty.password) {
-      const passwordOrError = Password.create(editUserData.password);
+    const passwordOrError = Password.create(editUserData.password);
 
-      if (passwordOrError.isError()) return error(passwordOrError.value);
+    if (passwordOrError.isError()) return error(passwordOrError.value);
+
+    if (
+      !(await compareHashPassword(editUserData.password, userOrEmpty.password!))
+    ) {
+      editUserData.password = await createHashPassword(editUserData.password);
 
       await this.userRepository.updatePassword(
         editUserData.userId,
