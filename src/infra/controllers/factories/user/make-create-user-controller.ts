@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '../../../../use-case/user/create-user-use-case';
 import { PrismaUserRepository } from '../../../external/prisma/repositories/prisma-user-repository';
-import { CreateUserController } from '../../create-user-controller';
+import { CreateUserController } from '../../user/create-user-controller';
 
 export function makeCreateUserController() {
   const userRepository = new PrismaUserRepository();

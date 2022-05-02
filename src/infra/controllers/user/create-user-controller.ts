@@ -1,6 +1,6 @@
-import { UserInterface } from '../../domain/user/interface/user-interface';
-import { CreateUserUseCase } from '../../use-case/user/create-user-use-case';
-import { badRequest, created } from './respose/http-responses';
+import { UserInterface } from '../../../domain/user/interface/user-interface';
+import { CreateUserUseCase } from '../../../use-case/user/create-user-use-case';
+import { badRequest, created } from '../respose/http-responses';
 
 export class CreateUserController {
   private createUserUseCase: CreateUserUseCase;

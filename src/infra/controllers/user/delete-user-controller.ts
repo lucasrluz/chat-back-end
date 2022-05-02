@@ -1,5 +1,5 @@
-import { DeleteUserUseCase } from '../../use-case/user/delete-user-use-case';
-import { notFound, ok } from './respose/http-responses';
+import { DeleteUserUseCase } from '../../../use-case/user/delete-user-use-case';
+import { notFound, ok } from '../respose/http-responses';
 
 export class DeleteUserController {
   private deleteUserUseCase: DeleteUserUseCase;

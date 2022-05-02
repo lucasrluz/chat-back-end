@@ -1,5 +1,5 @@
-import { EditUserUseCase } from '../../use-case/user/edit-user-use-case';
-import { badRequest, notFound, ok } from './respose/http-responses';
+import { EditUserUseCase } from '../../../use-case/user/edit-user-use-case';
+import { badRequest, notFound, ok } from '../respose/http-responses';
 
 interface EditUserData {
   userId: string;
