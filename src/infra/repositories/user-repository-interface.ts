@@ -8,7 +8,9 @@ export interface UserRepositoryInterface {
     email: string | undefined;
     password: string | undefined;
   }>;
-  findByUsername(username: string): Promise<{ id: string | undefined }>;
+  findByUsername(
+    username: string,
+  ): Promise<{ id: string | undefined; password: string | undefined }>;
   findByEmail(email: string): Promise<{ id: string | undefined }>;
   updateUsername(userId: string, username: string): Promise<void>;
   updatePassword(userId: string, password: string): Promise<void>;

@@ -52,10 +52,12 @@ export class InMemoryUserRepository implements UserRepositoryInterface {
     if (typeof userOrEmpty === 'object')
       return {
         id: userOrEmpty.id.toString(),
+        password: userOrEmpty.password,
       };
 
     return {
       id: undefined,
+      password: undefined,
     };
   }
 

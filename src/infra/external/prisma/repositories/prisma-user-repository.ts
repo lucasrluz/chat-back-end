@@ -37,6 +37,7 @@ export class PrismaUserRepository implements UserRepositoryInterface {
 
     return {
       id: response?.userId,
+      password: response?.password,
     };
   }
 
