@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from '../../../src/domain/user/user';
 
 describe('User domain tests', () => {
@@ -15,7 +16,6 @@ describe('User domain tests', () => {
     );
 
     expect(userOrError.isSuccess()).toEqual(true);
-    expect(userOrError.isError()).toEqual(false);
     expect(userData).toEqual(userOrError.value);
   });
 
@@ -34,7 +34,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username should not be empty');
     });
 
@@ -54,7 +53,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
 
@@ -74,7 +72,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
 
@@ -94,7 +91,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
 
@@ -114,7 +110,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
 
@@ -134,7 +129,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
 
@@ -156,7 +150,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Username must be a string');
     });
   });
@@ -176,7 +169,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual(
         'Email location size must be between 1 and 64 characters',
       );
@@ -202,7 +194,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual(
         'Email location size must be between 1 and 64 characters',
       );
@@ -222,7 +213,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual(
         'Email domain size must be between 1 and 255 characters',
       );
@@ -248,7 +238,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual(
         'Email domain size must be between 1 and 255 characters',
       );
@@ -268,7 +257,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -287,7 +275,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -306,7 +293,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -325,7 +311,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -344,7 +329,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -363,7 +347,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
 
@@ -383,7 +366,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Email must be an email');
     });
   });
@@ -403,7 +385,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual(
         'Password length must be longer than 6 characters',
       );
@@ -425,7 +406,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
 
@@ -445,7 +425,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
 
@@ -465,7 +444,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
 
@@ -485,7 +463,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
 
@@ -505,7 +482,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
 
@@ -525,7 +501,6 @@ describe('User domain tests', () => {
       );
 
       expect(userOrError.isError()).toEqual(true);
-      expect(userOrError.isSuccess()).toEqual(false);
       expect(userOrError.value).toEqual('Password must be a string');
     });
   });
