@@ -1,4 +1,4 @@
-import { prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
 
