@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
+import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on the edit user route', () => {
-  const prismaClient = new PrismaClient();
+  const userTestsRepository = new UserTestsRepository();
 
   beforeAll(async () => {
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should edit user', async () => {
@@ -21,13 +21,7 @@ describe('Tests on the edit user route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await prismaClient.user.create({
-      data: {
-        username: userData.username,
-        email: userData.email,
-        password: userData.password,
-      },
-    });
+    const createUserResponse = await userTestsRepository.create(userData);
 
     const response = await request(app)
       .put(`/user/${createUserResponse.userId}`)
@@ -36,7 +30,7 @@ describe('Tests on the edit user route', () => {
     expect(response.status).toEqual(200);
     expect(response.body.id).toEqual(createUserResponse.userId);
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   describe('Username tests', () => {
@@ -70,21 +64,9 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData1.username,
-          email: userData1.email,
-          password: userData1.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData1);
 
-      await prismaClient.user.create({
-        data: {
-          username: userData2.username,
-          email: userData2.email,
-          password: userData2.password,
-        },
-      });
+      await userTestsRepository.create(userData2);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -93,7 +75,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('This username already exists');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -108,13 +90,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -123,7 +99,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username should not be empty');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -138,13 +114,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -153,7 +123,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -168,13 +138,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -183,7 +147,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -198,13 +162,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -213,7 +171,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -228,13 +186,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -243,7 +195,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -258,13 +210,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -273,7 +219,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -288,13 +234,7 @@ describe('Tests on the edit user route', () => {
         password: '123456',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -303,7 +243,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Username must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
   });
 
@@ -320,13 +260,7 @@ describe('Tests on the edit user route', () => {
         password: '',
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -337,7 +271,7 @@ describe('Tests on the edit user route', () => {
         'Password length must be longer than 6 characters',
       );
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -352,13 +286,7 @@ describe('Tests on the edit user route', () => {
         password: true,
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -367,7 +295,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -382,13 +310,7 @@ describe('Tests on the edit user route', () => {
         password: false,
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -397,7 +319,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -412,13 +334,7 @@ describe('Tests on the edit user route', () => {
         password: undefined,
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -427,7 +343,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -442,13 +358,7 @@ describe('Tests on the edit user route', () => {
         password: null,
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -457,7 +367,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -472,13 +382,7 @@ describe('Tests on the edit user route', () => {
         password: 0,
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -487,7 +391,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -502,13 +406,7 @@ describe('Tests on the edit user route', () => {
         password: { value: '123456' },
       };
 
-      const createUserResponse = await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      const createUserResponse = await userTestsRepository.create(userData);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
@@ -517,7 +415,7 @@ describe('Tests on the edit user route', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('Password must be a string');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
   });
 });

@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
+import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on the create user route', () => {
-  const prismaClient = new PrismaClient();
+  const userTestsRepository = new UserTestsRepository();
 
   beforeAll(async () => {
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should create new user', async () => {
@@ -20,7 +20,7 @@ describe('Tests on the create user route', () => {
 
     expect(response.status).toEqual(201);
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   describe('Username tests', () => {
@@ -31,20 +31,14 @@ describe('Tests on the create user route', () => {
         password: '123456',
       };
 
-      await prismaClient.user.create({
-        data: {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        },
-      });
+      await userTestsRepository.create(userData);
 
       const response = await request(app).post('/user').send(userData);
 
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('This username already exists');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {
@@ -153,20 +147,14 @@ describe('Tests on the create user route', () => {
         password: '123456',
       };
 
-      await prismaClient.user.create({
-        data: {
-          username: userData1.username,
-          email: userData1.email,
-          password: userData1.password,
-        },
-      });
+      await userTestsRepository.create(userData1);
 
       const response = await request(app).post('/user').send(userData2);
 
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('This email already exists');
 
-      await prismaClient.user.deleteMany();
+      await userTestsRepository.deleteMany();
     });
 
     it('Should return error message', async () => {

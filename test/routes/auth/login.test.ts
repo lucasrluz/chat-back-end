@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
+import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on login route', () => {
-  const prismaClient = new PrismaClient();
+  const userTestsRepository = new UserTestsRepository();
 
   beforeAll(async () => {
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should return access token and refersh token', async () => {
@@ -22,13 +22,13 @@ describe('Tests on login route', () => {
       password: '123456',
     };
 
-    await prismaClient.user.create({ data: userData });
+    await userTestsRepository.create(userData);
 
     const response = await request(app).post('/login').send(loginData);
 
     expect(response.status).toEqual(200);
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -55,13 +55,13 @@ describe('Tests on login route', () => {
       password: '654321',
     };
 
-    await prismaClient.user.create({ data: userData });
+    await userTestsRepository.create(userData);
 
     const response = await request(app).post('/login').send(loginData);
 
     expect(response.status).toEqual(401);
     expect(response.body).toEqual('Username or password invalid');
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 });

@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
+import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on the delete user route', () => {
-  const prismaClient = new PrismaClient();
+  const userTestsRepository = new UserTestsRepository();
 
   beforeAll(async () => {
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should delete user', async () => {
@@ -16,13 +16,7 @@ describe('Tests on the delete user route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await prismaClient.user.create({
-      data: {
-        username: userData.username,
-        email: userData.email,
-        password: userData.password,
-      },
-    });
+    const createUserResponse = await userTestsRepository.create(userData);
 
     const deleteUserResponse = await request(app).delete(
       `/user/${createUserResponse.userId}`,

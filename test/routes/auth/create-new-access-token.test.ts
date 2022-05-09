@@ -1,17 +1,17 @@
-import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
 import { refreshtokens } from '../../../src/use-case/auth/util/refresh-tokens';
 import { sleep } from '../../util/function/sleep';
+import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
 jest.setTimeout(65000);
 
 describe('Tests on create new access token route', () => {
-  const prismaClient = new PrismaClient();
+  const userTestsRepository = new UserTestsRepository();
 
   beforeAll(async () => {
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
   });
 
   it('Should return new access token and new refresh token', async () => {
@@ -26,9 +26,7 @@ describe('Tests on create new access token route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await prismaClient.user.create({
-      data: userData,
-    });
+    const createUserResponse = await userTestsRepository.create(userData);
 
     const loginDataResponse = await request(app).post('/login').send(loginData);
     const createNewAccessTokenResponse = await request(app)
@@ -37,7 +35,7 @@ describe('Tests on create new access token route', () => {
 
     expect(createNewAccessTokenResponse.status).toEqual(201);
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
     refreshtokens.splice(0, refreshtokens.length);
   });
 
@@ -53,9 +51,7 @@ describe('Tests on create new access token route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await prismaClient.user.create({
-      data: userData,
-    });
+    const createUserResponse = await userTestsRepository.create(userData);
 
     const loginDataResponse = await request(app).post('/login').send(loginData);
     const createNewAccessTokenResponse = await request(app)
@@ -65,7 +61,7 @@ describe('Tests on create new access token route', () => {
     expect(createNewAccessTokenResponse.status).toEqual(400);
     expect(createNewAccessTokenResponse.body).toEqual('Token invalid');
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
     refreshtokens.splice(0, refreshtokens.length);
   });
 
@@ -81,9 +77,7 @@ describe('Tests on create new access token route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await prismaClient.user.create({
-      data: userData,
-    });
+    const createUserResponse = await userTestsRepository.create(userData);
 
     const loginDataResponse = await request(app).post('/login').send(loginData);
 
@@ -95,7 +89,7 @@ describe('Tests on create new access token route', () => {
 
     expect(createNewAccessTokenResponse.status).toEqual(400);
 
-    await prismaClient.user.deleteMany();
+    await userTestsRepository.deleteMany();
     refreshtokens.splice(0, refreshtokens.length);
   });
 });
