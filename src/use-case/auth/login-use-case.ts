@@ -3,6 +3,7 @@ import { generateRefreshToken } from '../../infra/external/jsonwebtoken/generate
 import { generateToken } from '../../infra/external/jsonwebtoken/generate-token';
 import { UserRepositoryInterface } from '../../infra/repositories/user-repository-interface';
 import { error, success } from '../../shared/response';
+import { refreshtokens } from './util/refresh-tokens';
 
 interface LoginData {
   username: string;
@@ -29,6 +30,8 @@ export class LoginUseCase {
     const accessToken = generateToken(userOrEmpty.id);
 
     const refreshToken = generateRefreshToken(userOrEmpty.id);
+
+    refreshtokens.push(refreshToken);
 
     return success({
       accessToken,
