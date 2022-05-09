@@ -15,13 +15,13 @@ describe('Create user use case tests', () => {
     const response = await createUserUseCase.perform(userData);
 
     expect(response.isSuccess()).toEqual(true);
-    expect(response.isError()).toEqual(false);
     expect(response.value).toEqual({ id: '0' });
 
     const user = await userRepository.findById('0');
 
     const comprarePassword = await compareHashPassword(
       userData.password,
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       user.password!,
     );
 
@@ -42,7 +42,6 @@ describe('Create user use case tests', () => {
     const errorResponse = await createUserUseCase.perform(userData);
 
     expect(errorResponse.isError()).toEqual(true);
-    expect(errorResponse.isSuccess()).toEqual(false);
     expect(errorResponse.value).toEqual('This username already exists');
 
     await userRepository.deleteMany();
@@ -66,7 +65,6 @@ describe('Create user use case tests', () => {
     const errorResponse = await createUserUseCase.perform(userData2);
 
     expect(errorResponse.isError()).toEqual(true);
-    expect(errorResponse.isSuccess()).toEqual(false);
     expect(errorResponse.value).toEqual('This email already exists');
 
     await userRepository.deleteMany();
