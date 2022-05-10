@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { makeLoginController } from '../../../../controllers/factories/auth/make-login-controller';
+import { makeLoginController } from '../../../../../controllers/factories/auth/make-login-controller';
 
 export function adaptRouteLogin() {
   return async (req: Request, res: Response) => {

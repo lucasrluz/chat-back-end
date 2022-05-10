@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { makeCreateNewAccessTokenController } from '../../../../controllers/factories/auth/make-create-new-access-token-controller';
+import { makeCreateNewAccessTokenController } from '../../../../../controllers/factories/auth/make-create-new-access-token-controller';
 
 export function adaptRouteCreateNewAccessToken() {
   return async (req: Request, res: Response) => {
