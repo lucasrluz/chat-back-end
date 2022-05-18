@@ -4,11 +4,16 @@ import { ensureAuthenticatedUser } from '../../../../../middleware/ensure-authen
 
 export function ensureAuthenticatedUserAdaptRoute() {
   return (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.user_id;
+
     const header = req.headers.authorization;
 
     const [, accessToken] = header!.split(' ');
 
-    const validateAccessTokenResponse = ensureAuthenticatedUser(accessToken!);
+    const validateAccessTokenResponse = ensureAuthenticatedUser(
+      accessToken!,
+      userId,
+    );
 
     if (validateAccessTokenResponse.status !== 200)
       return res
