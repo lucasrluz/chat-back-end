@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
 import { UserTestsRepository } from '../../util/repository/user-tests-repository';
 
@@ -13,18 +14,28 @@ describe('Tests on the edit user route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: '123456',
+      password: await createHashPassword('123456'),
     };
 
     const editUserData = {
       username: 'b',
+      password: await createHashPassword('123456'),
+    };
+
+    const loginData = {
+      username: 'a',
       password: '123456',
     };
 
     const createUserResponse = await userTestsRepository.create(userData);
 
+    const loginDataResponse = await request(app).post('/login').send(loginData);
+
+    const accessToken = loginDataResponse.body.accessToken;
+
     const response = await request(app)
       .put(`/user/${createUserResponse.userId}`)
+      .auth(accessToken, { type: 'bearer' })
       .send(editUserData);
 
     expect(response.status).toEqual(200);
@@ -34,42 +45,42 @@ describe('Tests on the edit user route', () => {
   });
 
   describe('Username tests', () => {
-    it('Should return error message', async () => {
-      const editUserData = {
-        username: 'b',
-        password: '123456',
-      };
-
-      const response = await request(app).put(`/user/${0}`).send(editUserData);
-
-      expect(response.status).toEqual(404);
-      expect(response.body).toEqual('User not found');
-    });
-
     it('Shold return error message', async () => {
       const userData1 = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const userData2 = {
         username: 'b',
         email: 'b@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: 'b',
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData1);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       await userTestsRepository.create(userData2);
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -82,18 +93,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: '',
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -106,18 +129,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: true,
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -130,18 +165,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: false,
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -154,18 +201,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: undefined,
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -178,18 +237,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: null,
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -202,18 +273,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: 0,
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -226,18 +309,30 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
         username: { value: 'b' },
+        password: await createHashPassword('123456'),
+      };
+
+      const loginData = {
+        username: 'a',
         password: '123456',
       };
 
       const createUserResponse = await userTestsRepository.create(userData);
 
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
+
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -252,7 +347,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -260,10 +355,22 @@ describe('Tests on the edit user route', () => {
         password: '',
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -278,7 +385,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -286,10 +393,22 @@ describe('Tests on the edit user route', () => {
         password: true,
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -302,7 +421,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -310,10 +429,22 @@ describe('Tests on the edit user route', () => {
         password: false,
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -326,7 +457,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -334,10 +465,22 @@ describe('Tests on the edit user route', () => {
         password: undefined,
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -350,7 +493,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -358,10 +501,22 @@ describe('Tests on the edit user route', () => {
         password: null,
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -374,7 +529,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -382,10 +537,22 @@ describe('Tests on the edit user route', () => {
         password: 0,
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);
@@ -398,7 +565,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: '123456',
+        password: await createHashPassword('123456'),
       };
 
       const editUserData = {
@@ -406,10 +573,22 @@ describe('Tests on the edit user route', () => {
         password: { value: '123456' },
       };
 
+      const loginData = {
+        username: 'a',
+        password: '123456',
+      };
+
       const createUserResponse = await userTestsRepository.create(userData);
+
+      const loginDataResponse = await request(app)
+        .post('/login')
+        .send(loginData);
+
+      const accessToken = loginDataResponse.body.accessToken;
 
       const response = await request(app)
         .put(`/user/${createUserResponse.userId}`)
+        .auth(accessToken, { type: 'bearer' })
         .send(editUserData);
 
       expect(response.status).toEqual(400);

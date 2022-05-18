@@ -13,17 +13,20 @@ describe('Create new access token tests', () => {
   const createNewAccessTokenUseCase = new CreateNewAccessTokenUseCase();
 
   it('Should return access token and refresh token', async () => {
-    const refreshToken = generateRefreshToken('0');
+    const userId = '0';
+
+    const refreshToken = generateRefreshToken(userId);
 
     refreshtokens.push(refreshToken);
 
     const response = await createNewAccessTokenUseCase.perform(
       refreshToken,
-      '0',
+      userId,
     );
 
     const validateAccessTokenResponse = validateAccessToken(
       response.value.newAccessToken,
+      userId,
     );
 
     const validateRefreshTokenResponse = validateRefreshToken(
