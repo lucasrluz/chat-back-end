@@ -63,26 +63,12 @@ describe('Tests on middleware ensure authtenticated user', () => {
       password: await createHashPassword('123456'),
     };
 
-    const userData2 = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
-    };
-
-    const loginData = {
-      username: 'a',
-      password: '123456',
-    };
-
     const createUserResponse1 = await userTestsRepository.create(userData1);
-    const createUserResponse2 = await userTestsRepository.create(userData2);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
-
-    const accessToken = loginDataResponse.body.accessToken;
+    const accessToken = '';
 
     const deleteUserResponse = await request(app)
-      .delete(`/user/${createUserResponse2.userId}`)
+      .delete(`/user/${createUserResponse1.userId}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteUserResponse.status).toEqual(404);
