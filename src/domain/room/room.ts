@@ -1,5 +1,5 @@
 import { error, success } from '../../shared/response';
-import { validateName } from './validateName';
+import { validateName } from './validate/validateName';
 
 export class Room {
   public name: string;

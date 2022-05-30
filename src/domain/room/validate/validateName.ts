@@ -1,4 +1,4 @@
-import { error, success } from '../../shared/response';
+import { error, success } from '../../../shared/response';
 
 export function validateName(name: string) {
   if (typeof name !== 'string') return error('Name must be a string');
