@@ -18,3 +18,10 @@ model User {
 
   @@map("user_account")
 }
+
+model Room {
+  roomId String @id @default(uuid())
+  name   String
+
+  @@map("room")
+}
