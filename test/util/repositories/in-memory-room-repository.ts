@@ -13,6 +13,6 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
 
     this.rooms.push({ roomId: roomId.toString(), name: name });
 
-    return { name: name };
+    return { roomId: roomId.toString(), name: name };
   }
 }
