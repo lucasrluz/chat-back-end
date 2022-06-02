@@ -15,4 +15,14 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
 
     return { roomId: roomId.toString(), name: name };
   }
+
+  public async edit(roomId: string, name: string) {
+    const index = this.rooms.findIndex((room) => room.roomId === roomId);
+
+    this.rooms[index].name = name;
+
+    return {
+      name: name,
+    };
+  }
 }
