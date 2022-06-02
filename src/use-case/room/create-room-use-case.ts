@@ -16,6 +16,9 @@ export class CreateRoomUseCase {
 
     const createRoomResponse = await this.roomRepository.create(name);
 
-    return success({ name: createRoomResponse.name });
+    return success({
+      roomId: createRoomResponse.roomId,
+      name: createRoomResponse.name,
+    });
   }
 }
