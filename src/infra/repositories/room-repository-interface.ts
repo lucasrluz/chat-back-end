@@ -1,3 +1,3 @@
 export interface RoomRepositoryInterface {
-  create(name: string): Promise<{ name: string }>;
+  create(name: string): Promise<{ roomId: string; name: string }>;
 }
