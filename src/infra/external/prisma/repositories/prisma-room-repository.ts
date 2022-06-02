@@ -11,6 +11,17 @@ export class PrismaRoomRepository implements RoomRepositoryInterface {
     };
   }
 
+  async findById(roomId: string): Promise<{ roomId: string; name: string }> {
+    const response = await prismaClient.room.delete({
+      where: { roomId: roomId },
+    });
+
+    return {
+      roomId: response.roomId,
+      name: response.name,
+    };
+  }
+
   async edit(roomId: string, name: string): Promise<{ name: string }> {
     const response = await prismaClient.room.update({
       where: { roomId: roomId },
@@ -20,5 +31,9 @@ export class PrismaRoomRepository implements RoomRepositoryInterface {
     return {
       name: response.name,
     };
+  }
+
+  async deleteById(roomId: string) {
+    await prismaClient.room.delete({ where: { roomId: roomId } });
   }
 }

@@ -16,6 +16,17 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
     return { roomId: roomId.toString(), name: name };
   }
 
+  public async findById(roomId: string) {
+    const index = this.rooms.findIndex((room) => room.roomId === roomId);
+
+    const room = this.rooms[index];
+
+    return {
+      roomId: room.roomId,
+      name: room.name,
+    };
+  }
+
   public async edit(roomId: string, name: string) {
     const index = this.rooms.findIndex((room) => room.roomId === roomId);
 
@@ -24,5 +35,11 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
     return {
       name: name,
     };
+  }
+
+  public async deleteById(roomId: string) {
+    const index = this.rooms.findIndex((room) => room.roomId === roomId);
+
+    this.rooms.splice(index, 1);
   }
 }
