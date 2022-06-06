@@ -1,5 +1,5 @@
 import { EditRoomUseCase } from '../../../use-case/room/edit-room-use-case';
-import { badRequest, ok } from '../respose/http-responses';
+import { badRequest, notFound, ok } from '../respose/http-responses';
 
 export class EditRoomController {
   private editRoomUseCase: EditRoomUseCase;
@@ -11,7 +11,11 @@ export class EditRoomController {
   public async perform(roomId: string, name: string) {
     const response = await this.editRoomUseCase.perform(roomId, name);
 
-    if (response.isError()) return badRequest(response.value);
+    if (response.isError()) {
+      if (response.value === 'Room not found') return notFound(response.value);
+
+      return badRequest(response.value);
+    }
 
     return ok(response.value);
   }
