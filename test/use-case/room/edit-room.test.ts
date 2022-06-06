@@ -26,4 +26,18 @@ describe('Edit room use case tests', () => {
     expect(editRoomResponse.isSuccess()).toEqual(true);
     expect(editRoomResponse.value).toEqual(editRoomData);
   });
+
+  it('Should return error message', async () => {
+    const editRoomData = {
+      name: 'b',
+    };
+
+    const editRoomResponse = await editRoomUseCase.perform(
+      'invalidRoomId',
+      editRoomData.name,
+    );
+
+    expect(editRoomResponse.isError()).toEqual(true);
+    expect(editRoomResponse.value).toEqual('Room not found');
+  });
 });
