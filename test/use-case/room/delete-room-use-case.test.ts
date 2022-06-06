@@ -24,4 +24,11 @@ describe('Delete room use case', () => {
 
     userRepository.deleteMany();
   });
+
+  it.only('Should return error', async () => {
+    const deleteRoomResponse = await deleteRoomUseCase.perform('invalidRoomId');
+
+    expect(deleteRoomResponse.isError()).toEqual(true);
+    expect(deleteRoomResponse.value).toEqual('Room not found');
+  });
 });
