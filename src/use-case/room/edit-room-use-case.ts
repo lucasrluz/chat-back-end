@@ -10,6 +10,10 @@ export class EditRoomUseCase {
   }
 
   public async perform(roomId: string, name: string) {
+    const roomOrEmpty = await this.roomRepository.findById(roomId);
+
+    if (!roomOrEmpty.roomId) return error('Room not found');
+
     const roomOrError = Room.create(name);
 
     if (roomOrError.isError()) return error(roomOrError.value);
