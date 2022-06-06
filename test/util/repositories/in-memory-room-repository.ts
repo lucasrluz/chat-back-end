@@ -21,6 +21,12 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
 
     const room = this.rooms[index];
 
+    if (room === undefined)
+      return {
+        roomId: undefined,
+        name: undefined,
+      };
+
     return {
       roomId: room.roomId,
       name: room.name,

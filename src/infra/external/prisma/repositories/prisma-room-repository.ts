@@ -11,14 +11,16 @@ export class PrismaRoomRepository implements RoomRepositoryInterface {
     };
   }
 
-  async findById(roomId: string): Promise<{ roomId: string; name: string }> {
-    const response = await prismaClient.room.delete({
+  async findById(
+    roomId: string,
+  ): Promise<{ roomId: string | undefined; name: string | undefined }> {
+    const response = await prismaClient.room.findFirst({
       where: { roomId: roomId },
     });
 
     return {
-      roomId: response.roomId,
-      name: response.name,
+      roomId: response?.roomId,
+      name: response?.name,
     };
   }
 
