@@ -9,9 +9,9 @@ export class DeleteRoomUseCase {
   }
 
   public async perform(roomId: string) {
-    const roomOrEmpty = this.roomRepository.findById(roomId);
+    const roomOrEmpty = await this.roomRepository.findById(roomId);
 
-    if (!roomOrEmpty) return error('Room not found');
+    if (!roomOrEmpty.roomId) return error('Room not found');
 
     await this.roomRepository.deleteById(roomId);
 
