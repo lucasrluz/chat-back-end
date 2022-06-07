@@ -1,9 +1,9 @@
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { UserTestsRepository } from '../../util/repository/user-tests-repository';
+import { TestUserRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on the create user route', () => {
-  const userTestsRepository = new UserTestsRepository();
+  const userTestsRepository = new TestUserRepository();
 
   beforeAll(async () => {
     await userTestsRepository.deleteMany();

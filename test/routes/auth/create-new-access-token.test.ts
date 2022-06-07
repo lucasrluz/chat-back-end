@@ -1,14 +1,13 @@
 import request from 'supertest';
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
 import { refreshtokens } from '../../../src/use-case/auth/util/refresh-tokens';
 import { sleep } from '../../util/function/sleep';
-import { UserTestsRepository } from '../../util/repository/user-tests-repository';
+import { TestUserRepository } from '../../util/repository/user-tests-repository';
 
 jest.setTimeout(65000);
 
 describe('Tests on create new access token route', () => {
-  const userTestsRepository = new UserTestsRepository();
+  const userTestsRepository = new TestUserRepository();
 
   beforeAll(async () => {
     await userTestsRepository.deleteMany();
@@ -18,7 +17,7 @@ describe('Tests on create new access token route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -43,7 +42,7 @@ describe('Tests on create new access token route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -69,7 +68,7 @@ describe('Tests on create new access token route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {

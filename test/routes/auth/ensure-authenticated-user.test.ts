@@ -1,10 +1,9 @@
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
-import { UserTestsRepository } from '../../util/repository/user-tests-repository';
+import { TestUserRepository } from '../../util/repository/user-tests-repository';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
 
 describe('Tests on middleware ensure authtenticated user', () => {
-  const userTestsRepository = new UserTestsRepository();
+  const userTestsRepository = new TestUserRepository();
 
   beforeAll(async () => {
     await userTestsRepository.deleteMany();
@@ -14,7 +13,7 @@ describe('Tests on middleware ensure authtenticated user', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -39,7 +38,7 @@ describe('Tests on middleware ensure authtenticated user', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const createUserResponse = await userTestsRepository.create(userData);
@@ -60,7 +59,7 @@ describe('Tests on middleware ensure authtenticated user', () => {
     const userData1 = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const createUserResponse1 = await userTestsRepository.create(userData1);

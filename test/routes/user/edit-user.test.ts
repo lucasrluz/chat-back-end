@@ -1,10 +1,9 @@
 import request from 'supertest';
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
-import { UserTestsRepository } from '../../util/repository/user-tests-repository';
+import { TestUserRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on the edit user route', () => {
-  const userTestsRepository = new UserTestsRepository();
+  const userTestsRepository = new TestUserRepository();
 
   beforeAll(async () => {
     await userTestsRepository.deleteMany();
@@ -14,12 +13,12 @@ describe('Tests on the edit user route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const editUserData = {
       username: 'b',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -49,18 +48,18 @@ describe('Tests on the edit user route', () => {
       const userData1 = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const userData2 = {
         username: 'b',
         email: 'b@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: 'b',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -93,12 +92,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: '',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -129,12 +128,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: true,
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -165,12 +164,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: false,
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -201,12 +200,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: undefined,
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -237,12 +236,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: null,
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -273,12 +272,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: 0,
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -309,12 +308,12 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
         username: { value: 'b' },
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const loginData = {
@@ -347,7 +346,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -385,7 +384,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -421,7 +420,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -457,7 +456,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -493,7 +492,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -529,7 +528,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {
@@ -565,7 +564,7 @@ describe('Tests on the edit user route', () => {
       const userData = {
         username: 'a',
         email: 'a@gmail.com',
-        password: await createHashPassword('123456'),
+        password: '123456',
       };
 
       const editUserData = {

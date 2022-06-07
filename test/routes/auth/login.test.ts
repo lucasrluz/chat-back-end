@@ -1,10 +1,9 @@
 import request from 'supertest';
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { app } from '../../../src/infra/external/express/app';
-import { UserTestsRepository } from '../../util/repository/user-tests-repository';
+import { TestUserRepository } from '../../util/repository/user-tests-repository';
 
 describe('Tests on login route', () => {
-  const userTestsRepository = new UserTestsRepository();
+  const userTestsRepository = new TestUserRepository();
 
   beforeAll(async () => {
     await userTestsRepository.deleteMany();
@@ -14,7 +13,7 @@ describe('Tests on login route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -47,7 +46,7 @@ describe('Tests on login route', () => {
     const userData = {
       username: 'a',
       email: 'a@gmail.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
