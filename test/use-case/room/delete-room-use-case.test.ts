@@ -1,11 +1,9 @@
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
 import { DeleteRoomUseCase } from '../../../src/use-case/room/delete-room-use-case';
 import { InMemoryRoomRepository } from '../../util/repositories/in-memory-room-repository';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
 
 describe('Delete room use case', () => {
   const roomRepository = new InMemoryRoomRepository();
-  const userRepository = new InMemoryUserRepository();
 
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
   const deleteRoomUseCase = new DeleteRoomUseCase(roomRepository);
@@ -21,8 +19,6 @@ describe('Delete room use case', () => {
     );
 
     expect(deleteRoomResponse.isSuccess()).toEqual(true);
-
-    userRepository.deleteMany();
   });
 
   it('Should return error', async () => {
