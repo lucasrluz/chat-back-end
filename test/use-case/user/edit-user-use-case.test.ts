@@ -65,4 +65,29 @@ describe('Edit user use case tests', () => {
 
     await userRepository.deleteMany();
   });
+
+  it('Should not edit user', async () => {
+    const userData1 = {
+      username: 'a',
+      email: 'a@gmail.com',
+      password: '123456',
+    };
+
+    const editUserData = {
+      userId: '',
+      username: '',
+      password: '123456',
+    };
+
+    const createUserResponse = await createUserUseCase.perform(userData1);
+
+    editUserData.userId = createUserResponse.value.id;
+
+    const editUserResponse = await editUserUseCase.perform(editUserData);
+
+    expect(editUserResponse.isError()).toEqual(true);
+    expect(editUserResponse.value).toEqual('Username should not be empty');
+
+    await userRepository.deleteMany();
+  });
 });
