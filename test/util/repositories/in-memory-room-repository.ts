@@ -48,4 +48,8 @@ export class InMemoryRoomRepository implements RoomRepositoryInterface {
 
     this.rooms.splice(index, 1);
   }
+
+  public async deleteMany() {
+    this.rooms = [];
+  }
 }
