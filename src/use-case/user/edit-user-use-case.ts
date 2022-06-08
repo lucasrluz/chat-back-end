@@ -19,11 +19,9 @@ export class EditUserUseCase {
   }
 
   public async perform(editUserData: EditUserData) {
-    const userOrEmpty = await this.userRepository.findById(editUserData.userId);
+    const user = await this.userRepository.findById(editUserData.userId);
 
-    if (!userOrEmpty.id) return error('User not found');
-
-    if (editUserData.username !== userOrEmpty.username) {
+    if (editUserData.username !== user.username) {
       const usernameOrError = Username.create(editUserData.username);
 
       if (usernameOrError.isError()) return error(usernameOrError.value);
@@ -44,9 +42,7 @@ export class EditUserUseCase {
 
     if (passwordOrError.isError()) return error(passwordOrError.value);
 
-    if (
-      !(await compareHashPassword(editUserData.password, userOrEmpty.password!))
-    ) {
+    if (!(await compareHashPassword(editUserData.password, user.password!))) {
       editUserData.password = await createHashPassword(editUserData.password);
 
       await this.userRepository.updatePassword(

@@ -34,19 +34,6 @@ describe('Edit user use case tests', () => {
     await userRepository.deleteMany();
   });
 
-  it('Should return error', async () => {
-    const userData = {
-      userId: '0',
-      username: 'a',
-      password: '123456',
-    };
-
-    const editUserResponse = await editUserUseCase.perform(userData);
-
-    expect(editUserResponse.isError()).toEqual(true);
-    expect(editUserResponse.value).toEqual('User not found');
-  });
-
   it('Should not edit user', async () => {
     const userData1 = {
       username: 'a',
