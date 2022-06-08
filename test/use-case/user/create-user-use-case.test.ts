@@ -69,4 +69,17 @@ describe('Create user use case tests', () => {
 
     await userRepository.deleteMany();
   });
+
+  it('Should return error message', async () => {
+    const userData = {
+      username: '',
+      email: 'a@gmail.com',
+      password: '123456',
+    };
+
+    const response = await createUserUseCase.perform(userData);
+
+    expect(response.isError()).toEqual(true);
+    expect(response.value).toEqual('Username should not be empty');
+  });
 });
