@@ -1,16 +1,17 @@
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
 import { LoginUseCase } from '../../../src/use-case/auth/login-use-case';
+import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
 
 describe('Login use case tests', () => {
   const userRepository = new InMemoryUserRepository();
+  const createUserUseCase = new CreateUserUseCase(userRepository);
   const loginUseCase = new LoginUseCase(userRepository);
 
   it('Should return access token end refresh token', async () => {
     const userData = {
       username: 'a',
       email: 'a@gamil.com',
-      password: await createHashPassword('123456'),
+      password: '123456',
     };
 
     const loginData = {
@@ -18,7 +19,7 @@ describe('Login use case tests', () => {
       password: '123456',
     };
 
-    await userRepository.create(userData);
+    await createUserUseCase.perform(userData);
 
     const response = await loginUseCase.perform(loginData);
 
@@ -51,7 +52,7 @@ describe('Login use case tests', () => {
       password: '654321',
     };
 
-    await userRepository.create(userData);
+    await createUserUseCase.perform(userData);
 
     const response = await loginUseCase.perform(loginData);
 
