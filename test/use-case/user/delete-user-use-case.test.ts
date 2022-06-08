@@ -22,11 +22,4 @@ describe('Delete user use case tests', () => {
 
     expect(deleteUserResponse.isSuccess()).toEqual(true);
   });
-
-  it('Should delete user', async () => {
-    const deleteUserResponse = await deleteUserUseCase.perform('0');
-
-    expect(deleteUserResponse.isError()).toEqual(true);
-    expect(deleteUserResponse.value).toEqual('User not found');
-  });
 });

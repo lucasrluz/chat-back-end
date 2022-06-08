@@ -1,5 +1,5 @@
 import { UserRepositoryInterface } from '../../infra/repositories/user-repository-interface';
-import { error, success } from '../../shared/response';
+import { success } from '../../shared/response';
 
 export class DeleteUserUseCase {
   private userRepository: UserRepositoryInterface;
@@ -11,9 +11,7 @@ export class DeleteUserUseCase {
   public async perform(userId: string) {
     const userOrEmpty = await this.userRepository.findById(userId);
 
-    if (!userOrEmpty.id) return error('User not found');
-
-    await this.userRepository.deleteById(userOrEmpty.id);
+    await this.userRepository.deleteById(userOrEmpty.id!);
 
     return success();
   }
