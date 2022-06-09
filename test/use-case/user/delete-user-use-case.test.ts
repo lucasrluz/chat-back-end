@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { DeleteUserUseCase } from '../../../src/use-case/user/delete-user-use-case';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Delete user use case tests', () => {
   const userRepository = new InMemoryUserRepository();

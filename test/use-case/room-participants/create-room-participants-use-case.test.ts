@@ -1,9 +1,9 @@
 import { CreateRoomParticipantUseCase } from '../../../src/use-case/room-participants/create-room-participant-use-case';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { InMemoryRoomParticipantsRepository } from '../../util/repositories/in-memory-room-participants-repository';
-import { InMemoryRoomRepository } from '../../util/repositories/in-memory-room-repository';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
+import { InMemoryRoomParticipantsRepository } from '../../util/in-memory-repositories/in-memory-room-participants-repository';
+import { InMemoryRoomRepository } from '../../util/in-memory-repositories/in-memory-room-repository';
+import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Create room participants use case tests', () => {
   const userRepository = new InMemoryUserRepository();

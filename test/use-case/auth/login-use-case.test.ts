@@ -1,6 +1,6 @@
 import { LoginUseCase } from '../../../src/use-case/auth/login-use-case';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Login use case tests', () => {
   const userRepository = new InMemoryUserRepository();

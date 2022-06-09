@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { EditUserUseCase } from '../../../src/use-case/user/edit-user-use-case';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Edit user use case tests', () => {
   const userRepository = new InMemoryUserRepository();

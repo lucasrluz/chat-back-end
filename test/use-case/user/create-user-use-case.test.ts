@@ -1,6 +1,6 @@
 import { compareHashPassword } from '../../../src/infra/external/bcrypt/compare-hash-password';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { InMemoryUserRepository } from '../../util/repositories/in-memory-user-repository';
+import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Create user use case tests', () => {
   const userRepository = new InMemoryUserRepository();

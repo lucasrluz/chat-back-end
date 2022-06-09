@@ -1,5 +1,5 @@
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
-import { InMemoryRoomRepository } from '../../util/repositories/in-memory-room-repository';
+import { InMemoryRoomRepository } from '../../util/in-memory-repositories/in-memory-room-repository';
 
 describe('Create room use case tests', () => {
   const roomRepository = new InMemoryRoomRepository();
