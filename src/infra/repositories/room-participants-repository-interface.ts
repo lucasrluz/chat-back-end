@@ -4,5 +4,7 @@ export interface RoomParticipantsRepositoryInterface {
     userId: string,
   ): Promise<{ roomId: string; userId: string }>;
 
-  findByRoomId(roomId: string): Promise<{ roomId: string; userId: string }>;
+  findByRoomId(
+    roomId: string,
+  ): Promise<{ roomId: string | undefined; userId: string | undefined }>;
 }
