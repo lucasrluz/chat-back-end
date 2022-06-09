@@ -1,12 +1,13 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on login route', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return access token and refersh token', async () => {
@@ -21,13 +22,13 @@ describe('Tests on login route', () => {
       password: '123456',
     };
 
-    await userTestsRepository.create(userData);
+    await createUserRequestMethod(userData);
 
     const response = await request(app).post('/login').send(loginData);
 
     expect(response.status).toEqual(200);
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -54,13 +55,13 @@ describe('Tests on login route', () => {
       password: '654321',
     };
 
-    await userTestsRepository.create(userData);
+    await createUserRequestMethod(userData);
 
     const response = await request(app).post('/login').send(loginData);
 
     expect(response.status).toEqual(401);
     expect(response.body).toEqual('Username or password invalid');
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });

@@ -1,12 +1,14 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the edit user route', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should edit user', async () => {
@@ -26,21 +28,21 @@ describe('Tests on the edit user route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
+    const loginDataResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginDataResponse.body.accessToken;
 
     const response = await request(app)
-      .put(`/user/${createUserResponse.userId}`)
+      .put(`/user/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' })
       .send(editUserData);
 
     expect(response.status).toEqual(200);
-    expect(response.body.id).toEqual(createUserResponse.userId);
+    expect(response.body.id).toEqual(createUserResponse.body.id);
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -66,22 +68,22 @@ describe('Tests on the edit user route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData1);
+    const createUserResponse = await createUserRequestMethod(userData1);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
+    const loginDataResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginDataResponse.body.accessToken;
 
-    await userTestsRepository.create(userData2);
+    await createUserRequestMethod(userData2);
 
     const response = await request(app)
-      .put(`/user/${createUserResponse.userId}`)
+      .put(`/user/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' })
       .send(editUserData);
 
     expect(response.status).toEqual(400);
     expect(response.body).toEqual('This username already exists');
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });

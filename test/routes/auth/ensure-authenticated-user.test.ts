@@ -1,12 +1,14 @@
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on middleware ensure authtenticated user', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return success message', async () => {
@@ -21,14 +23,14 @@ describe('Tests on middleware ensure authtenticated user', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
+    const loginDataResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginDataResponse.body.accessToken;
 
     const deleteUserResponse = await request(app)
-      .delete(`/user/${createUserResponse.userId}`)
+      .delete(`/user/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteUserResponse.status).toEqual(200);
@@ -41,18 +43,18 @@ describe('Tests on middleware ensure authtenticated user', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
     const accessToken = '';
 
     const deleteUserResponse = await request(app)
-      .delete(`/user/${createUserResponse.userId}`)
+      .delete(`/user/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteUserResponse.status).toEqual(404);
     expect(deleteUserResponse.body).toEqual('Token not found');
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -62,17 +64,17 @@ describe('Tests on middleware ensure authtenticated user', () => {
       password: '123456',
     };
 
-    const createUserResponse1 = await userTestsRepository.create(userData1);
+    const createUserResponse1 = await createUserRequestMethod(userData1);
 
     const accessToken = '';
 
     const deleteUserResponse = await request(app)
-      .delete(`/user/${createUserResponse1.userId}`)
+      .delete(`/user/${createUserResponse1.body.id}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteUserResponse.status).toEqual(404);
     expect(deleteUserResponse.body).toEqual('Token not found');
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });

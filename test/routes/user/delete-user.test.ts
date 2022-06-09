@@ -1,12 +1,14 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the delete user route', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should delete user', async () => {
@@ -21,14 +23,14 @@ describe('Tests on the delete user route', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
+    const loginDataResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginDataResponse.body.accessToken;
 
     const deleteUserResponse = await request(app)
-      .delete(`/user/${createUserResponse.userId}`)
+      .delete(`/user/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteUserResponse.status).toEqual(200);

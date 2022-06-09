@@ -1,12 +1,15 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createRoomRequestMethod } from '../../util/request-methods/room-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the delete room route ', () => {
-  const userTestRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should delete room', async () => {
@@ -25,26 +28,27 @@ describe('Tests on the delete room route ', () => {
       name: 'a',
     };
 
-    const createUserResponse = await userTestRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginResponse = await request(app).post('/login').send(loginData);
+    const loginResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginResponse.body.accessToken;
 
-    const createRoomResponse = await request(app)
-      .post(`/room/${createUserResponse.userId}`)
-      .send(roomData)
-      .auth(accessToken, { type: 'bearer' });
+    const createRoomResponse = await createRoomRequestMethod(
+      createUserResponse.body.id,
+      roomData,
+      accessToken,
+    );
 
     const deleteRoomResponse = await request(app)
       .delete(
-        `/room/${createRoomResponse.body.roomId}/${createUserResponse.userId}`,
+        `/room/${createRoomResponse.body.roomId}/${createUserResponse.body.id}`,
       )
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteRoomResponse.status).toEqual(200);
 
-    await userTestRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -59,14 +63,14 @@ describe('Tests on the delete room route ', () => {
       password: '123456',
     };
 
-    const createUserResponse = await userTestRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginResponse = await request(app).post('/login').send(loginData);
+    const loginResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginResponse.body.accessToken;
 
     const deleteRoomResponse = await request(app)
-      .delete(`/room/'invalidRoomId'/${createUserResponse.userId}`)
+      .delete(`/room/'invalidRoomId'/${createUserResponse.body.id}`)
       .auth(accessToken, { type: 'bearer' });
 
     expect(deleteRoomResponse.status).toEqual(404);

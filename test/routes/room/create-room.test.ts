@@ -1,12 +1,14 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the create room route', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return new room', async () => {
@@ -25,14 +27,14 @@ describe('Tests on the create room route', () => {
       name: 'a',
     };
 
-    const createUserResponse = await userTestsRepository.create(userData);
+    const createUserResponse = await createUserRequestMethod(userData);
 
-    const loginDataResponse = await request(app).post('/login').send(loginData);
+    const loginDataResponse = await loginRequestMethod(loginData);
 
     const accessToken = loginDataResponse.body.accessToken;
 
     const createRoomResponse = await request(app)
-      .post(`/room/${createUserResponse.userId}`)
+      .post(`/room/${createUserResponse.body.id}`)
       .send(roomData)
       .auth(accessToken, { type: 'bearer' });
 

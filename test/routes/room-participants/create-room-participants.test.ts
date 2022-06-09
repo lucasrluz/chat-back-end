@@ -1,6 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createRoomRequestMethod } from '../../util/request-methods/room-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the create room participants route', () => {
   const prismaClient = new PrismaClient();
@@ -27,13 +30,14 @@ describe('Tests on the create room participants route', () => {
       name: 'a',
     };
 
-    const createUserResponse = await request(app).post('/user').send(userData);
-    const loginResponse = await request(app).post('/login').send(loginData);
+    const createUserResponse = await createUserRequestMethod(userData);
+    const loginResponse = await loginRequestMethod(loginData);
     const accessToken = loginResponse.body.accessToken;
-    const createRoomResponse = await request(app)
-      .post(`/room/${createUserResponse.body.id}`)
-      .send(roomData)
-      .auth(accessToken, { type: 'bearer' });
+    const createRoomResponse = await createRoomRequestMethod(
+      createUserResponse.body.id,
+      roomData,
+      accessToken,
+    );
 
     const createRoomParticipantResponse = await request(app)
       .post(

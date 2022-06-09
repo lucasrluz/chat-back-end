@@ -1,12 +1,15 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
+import { createRoomRequestMethod } from '../../util/request-methods/room-request-methods';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the edit room route', () => {
-  const userTestRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should edit room', async () => {
@@ -29,18 +32,19 @@ describe('Tests on the edit room route', () => {
       name: 'b',
     };
 
-    const createUserResponse = await userTestRepository.create(userData);
-    const loginResponse = await request(app).post('/login').send(loginData);
+    const createUserResponse = await createUserRequestMethod(userData);
+    const loginResponse = await loginRequestMethod(loginData);
     const accessToken = await loginResponse.body.accessToken;
 
-    const createRoomResponse = await request(app)
-      .post(`/room/${createUserResponse.userId}`)
-      .send(roomData)
-      .auth(accessToken, { type: 'bearer' });
+    const createRoomResponse = await createRoomRequestMethod(
+      createUserResponse.body.id,
+      roomData,
+      accessToken,
+    );
 
     const editRoomResponse = await request(app)
       .put(
-        `/room/${createRoomResponse.body.roomId}/${createUserResponse.userId}`,
+        `/room/${createRoomResponse.body.roomId}/${createUserResponse.body.id}`,
       )
       .send(editRoomData)
       .auth(accessToken, { type: 'bearer' });
@@ -48,7 +52,7 @@ describe('Tests on the edit room route', () => {
     expect(editRoomResponse.status).toEqual(200);
     expect(editRoomResponse.body).toEqual(editRoomData);
 
-    await userTestRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -67,12 +71,12 @@ describe('Tests on the edit room route', () => {
       name: 'b',
     };
 
-    const createUserResponse = await userTestRepository.create(userData);
-    const loginResponse = await request(app).post('/login').send(loginData);
+    const createUserResponse = await createUserRequestMethod(userData);
+    const loginResponse = await loginRequestMethod(loginData);
     const accessToken = await loginResponse.body.accessToken;
 
     const editRoomResponse = await request(app)
-      .put(`/room/${'invalidRoomId'}/${createUserResponse.userId}`)
+      .put(`/room/${'invalidRoomId'}/${createUserResponse.body.id}`)
       .send(editRoomData)
       .auth(accessToken, { type: 'bearer' });
 

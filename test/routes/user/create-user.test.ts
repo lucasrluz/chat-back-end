@@ -1,12 +1,13 @@
+import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../src/infra/external/express/app';
-import { TestUserRepository } from '../../util/repository/user-tests-repository';
+import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
 
 describe('Tests on the create user route', () => {
-  const userTestsRepository = new TestUserRepository();
+  const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should create new user', async () => {
@@ -20,7 +21,7 @@ describe('Tests on the create user route', () => {
 
     expect(response.status).toEqual(201);
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return status code 400', async () => {
@@ -30,13 +31,13 @@ describe('Tests on the create user route', () => {
       password: '123456',
     };
 
-    await userTestsRepository.create(userData);
+    await createUserRequestMethod(userData);
 
     const response = await request(app).post('/user').send(userData);
 
     expect(response.status).toEqual(400);
     expect(response.body).toEqual('This username already exists');
 
-    await userTestsRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });
