@@ -1,4 +1,4 @@
-export interface RoomParticipantsRepositoryInterface {
+export interface RoomParticipantRepositoryInterface {
   create(
     roomId: string,
     userId: string,

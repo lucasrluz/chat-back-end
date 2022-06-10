@@ -9,7 +9,7 @@ describe('Tests on the create room participants route', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
-    await prismaClient.roomParticipants.deleteMany();
+    await prismaClient.roomParticipant.deleteMany();
     await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
@@ -41,7 +41,7 @@ describe('Tests on the create room participants route', () => {
 
     const createRoomParticipantResponse = await request(app)
       .post(
-        `/roomParticipants/${createRoomResponse.body.roomId}/${createUserResponse.body.id}`,
+        `/roomParticipant/${createRoomResponse.body.roomId}/${createUserResponse.body.id}`,
       )
       .auth(accessToken, { type: 'bearer' });
 
@@ -51,7 +51,7 @@ describe('Tests on the create room participants route', () => {
       userId: createUserResponse.body.id,
     });
 
-    await prismaClient.roomParticipants.deleteMany();
+    await prismaClient.roomParticipant.deleteMany();
     await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });

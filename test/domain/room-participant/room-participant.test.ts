@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { RoomParticipants } from '../../../src/domain/room-participants/room-participants';
+import { RoomParticipant } from '../../../src/domain/room-participant/room-participant';
 
-describe('Room participants domain tests', () => {
+describe('Room participant domain tests', () => {
   it('Should create room participants', () => {
     const roomParticipantData = {
       roomId: 'roomId',
       userId: 'userId',
     };
 
-    const roomParticipantsOrError = RoomParticipants.create(
+    const roomParticipantOrError = RoomParticipant.create(
       roomParticipantData.roomId,
       roomParticipantData.userId,
     );
 
-    expect(roomParticipantsOrError.isSuccess()).toEqual(true);
-    expect(roomParticipantsOrError.value).toEqual(roomParticipantData);
+    expect(roomParticipantOrError.isSuccess()).toEqual(true);
+    expect(roomParticipantOrError.value).toEqual(roomParticipantData);
   });
 
   describe('RoomId tests', () => {
@@ -25,13 +25,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual(
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual(
         'RoomId should not be empty',
       );
     });
@@ -44,13 +44,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('RoomId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('RoomId must be a string');
     });
 
     it('Should return error message for creating roomId', () => {
@@ -61,13 +61,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('RoomId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('RoomId must be a string');
     });
 
     it('Should return error message for creating roomId', () => {
@@ -78,13 +78,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('RoomId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('RoomId must be a string');
     });
 
     it('Should return error message for creating roomId', () => {
@@ -95,13 +95,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('RoomId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('RoomId must be a string');
     });
 
     it('Should return error message for creating roomId', () => {
@@ -112,13 +112,13 @@ describe('Room participants domain tests', () => {
         userId: 'userId',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('RoomId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('RoomId must be a string');
     });
   });
 
@@ -129,13 +129,13 @@ describe('Room participants domain tests', () => {
         userId: '',
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual(
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual(
         'UserId should not be empty',
       );
     });
@@ -148,13 +148,13 @@ describe('Room participants domain tests', () => {
         userId: userId,
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('UserId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('UserId must be a string');
     });
 
     it('Should return error message for creating userId', () => {
@@ -165,13 +165,13 @@ describe('Room participants domain tests', () => {
         userId: userId,
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('UserId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('UserId must be a string');
     });
 
     it('Should return error message for creating userId', () => {
@@ -182,13 +182,13 @@ describe('Room participants domain tests', () => {
         userId: userId,
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('UserId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('UserId must be a string');
     });
 
     it('Should return error message for creating userId', () => {
@@ -199,13 +199,13 @@ describe('Room participants domain tests', () => {
         userId: userId,
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('UserId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('UserId must be a string');
     });
 
     it('Should return error message for creating userId', () => {
@@ -216,13 +216,13 @@ describe('Room participants domain tests', () => {
         userId: userId,
       };
 
-      const roomParticipantsOrError = RoomParticipants.create(
+      const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
         roomParticipantData.userId,
       );
 
-      expect(roomParticipantsOrError.isError()).toEqual(true);
-      expect(roomParticipantsOrError.value).toEqual('UserId must be a string');
+      expect(roomParticipantOrError.isError()).toEqual(true);
+      expect(roomParticipantOrError.value).toEqual('UserId must be a string');
     });
   });
 });

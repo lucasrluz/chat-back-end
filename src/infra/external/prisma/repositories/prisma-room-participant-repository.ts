@@ -1,13 +1,13 @@
 import { PrismaClient } from '@prisma/client';
-import { RoomParticipantsRepositoryInterface } from '../../../repositories/room-participants-repository-interface';
+import { RoomParticipantRepositoryInterface } from '../../../repositories/room-participant-repository-interface';
 
-export class PrismaRoomParticipantsRepository
-  implements RoomParticipantsRepositoryInterface
+export class PrismaRoomParticipantRepository
+  implements RoomParticipantRepositoryInterface
 {
   private prismaClient = new PrismaClient();
 
   public async create(roomId: string, userId: string) {
-    await this.prismaClient.roomParticipants.create({
+    await this.prismaClient.roomParticipant.create({
       data: { roomId: roomId, userId: userId },
     });
 
@@ -18,7 +18,7 @@ export class PrismaRoomParticipantsRepository
   }
 
   public async findByRoomId(roomId: string) {
-    const response = await this.prismaClient.roomParticipants.findFirst({
+    const response = await this.prismaClient.roomParticipant.findFirst({
       where: { roomId: roomId },
     });
 

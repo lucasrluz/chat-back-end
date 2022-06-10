@@ -15,7 +15,7 @@ model User {
   username String
   email    String
   password String
-  rooms     RoomParticipants[]
+  rooms     RoomParticipant[]
 
   @@map("user_account")
 }
@@ -23,17 +23,17 @@ model User {
 model Room {
   roomId String @id @default(uuid())
   name   String
-  users   RoomParticipants[]
+  users   RoomParticipant[]
 
   @@map("room")
 }
 
-model RoomParticipants {
+model RoomParticipant {
   room   Room   @relation(fields: [roomId], references: [roomId])
   roomId String
   user   User   @relation(fields: [userId], references: [userId])
   userId String
 
   @@id([roomId, userId])
-  @@map("roomParticipants")
+  @@map("roomParticipant")
 }

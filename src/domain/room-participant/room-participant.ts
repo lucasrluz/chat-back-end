@@ -2,7 +2,7 @@ import { error, success } from '../../shared/response';
 import { validateRoomId } from './validate/validateRoomId';
 import { validateUserId } from './validate/validateUserId';
 
-export class RoomParticipants {
+export class RoomParticipant {
   public roomId: string;
   public userId: string;
 
@@ -18,6 +18,6 @@ export class RoomParticipants {
     if (roomIdOrError.isError()) return error(roomIdOrError.value);
     if (userIdOrError.isError()) return error(userIdOrError.value);
 
-    return success(new RoomParticipants(roomId, userId));
+    return success(new RoomParticipant(roomId, userId));
   }
 }
