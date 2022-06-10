@@ -1,3 +1,4 @@
+import { prismaClient } from '../../../src/infra/external/prisma/prisma-client';
 import { CreateRoomParticipantUseCase } from '../../../src/use-case/room-participant/create-room-participant-use-case';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
@@ -80,5 +81,33 @@ describe('Create room participants use case tests', () => {
     expect(createRoomParticipantResponse.value).toEqual('Room not found');
 
     await userRepository.deleteMany();
+  });
+
+  it('Should return error message', async () => {
+    const userData = {
+      username: 'a',
+      email: 'a@gmail.com',
+      password: '123456',
+    };
+
+    const createUserResponse = await createUserUseCase.perform(userData);
+
+    const roomParticipantData = {
+      roomId: '',
+      userId: createUserResponse.value.id,
+    };
+
+    const createRoomParticipantResponse =
+      await createRoomParticipantUseCase.perform(
+        roomParticipantData.roomId,
+        roomParticipantData.userId,
+      );
+
+    expect(createRoomParticipantResponse.isError()).toEqual(true);
+    expect(createRoomParticipantResponse.value).toEqual(
+      'RoomId should not be empty',
+    );
+
+    await prismaClient.user.deleteMany();
   });
 });
