@@ -55,4 +55,30 @@ describe('Tests on the create room participants route', () => {
     await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
+
+  it('Should return error', async () => {
+    const userData = {
+      username: 'a',
+      email: 'a@gamil.com',
+      password: '123456',
+    };
+
+    const loginData = {
+      username: 'a',
+      password: '123456',
+    };
+
+    const createUserResponse = await createUserRequestMethod(userData);
+    const loginResponse = await loginRequestMethod(loginData);
+    const accessToken = loginResponse.body.accessToken;
+
+    const createRoomParticipantResponse = await request(app)
+      .post(`/roomParticipant/${'invalidRoomId'}/${createUserResponse.body.id}`)
+      .auth(accessToken, { type: 'bearer' });
+
+    expect(createRoomParticipantResponse.status).toEqual(404);
+    expect(createRoomParticipantResponse.body).toEqual('Room not found');
+
+    await prismaClient.user.deleteMany();
+  });
 });
