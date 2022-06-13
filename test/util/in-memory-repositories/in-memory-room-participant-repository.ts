@@ -32,6 +32,40 @@ export class InMemoryRoomParticipantRepository
     };
   }
 
+  public async findByRoomParticipantIdAndRoomId(
+    roomParticipantId: string,
+    roomId: string,
+  ) {
+    const index = this.roomParticipant.findIndex(
+      (roomParticipant) =>
+        roomParticipant.roomId === roomId &&
+        roomParticipant.userId === roomParticipantId,
+    );
+
+    if (index === -1)
+      return {
+        roomId: undefined,
+        userId: undefined,
+      };
+
+    const response = await this.roomParticipant[index];
+
+    return {
+      roomId: response.roomId,
+      userId: response.userId,
+    };
+  }
+
+  public async deleteByRoomParticipantId(roomParticipantId: string) {
+    const index = this.roomParticipant.findIndex(
+      (roomParticipant) => roomParticipant.roomId === roomParticipantId,
+    );
+
+    this.roomParticipant.splice(index, 1);
+
+    return;
+  }
+
   public async deleteMany() {
     this.roomParticipant = [];
   }

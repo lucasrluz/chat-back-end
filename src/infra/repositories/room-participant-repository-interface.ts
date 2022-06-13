@@ -7,4 +7,11 @@ export interface RoomParticipantRepositoryInterface {
   findByRoomId(
     roomId: string,
   ): Promise<{ roomId: string | undefined; userId: string | undefined }>;
+
+  findByRoomParticipantIdAndRoomId(
+    roomParticipantId: string,
+    roomId: string,
+  ): Promise<{ roomId: string | undefined; userId: string | undefined }>;
+
+  deleteByRoomParticipantId(roomParticipantId: string): Promise<void>;
 }
