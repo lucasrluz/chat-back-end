@@ -30,9 +30,9 @@ model Room {
 
 model RoomParticipant {
   room   Room   @relation(fields: [roomId], references: [roomId])
-  roomId String
+  roomId String @unique
   user   User   @relation(fields: [userId], references: [userId])
-  userId String
+  userId String @unique
 
   @@id([roomId, userId])
   @@map("roomParticipant")
