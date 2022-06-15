@@ -12,6 +12,13 @@ export function created(value: any) {
   };
 }
 
+export function noContent() {
+  return {
+    status: 204,
+    value: '',
+  };
+}
+
 export function badRequest(value: any) {
   return {
     status: 400,
