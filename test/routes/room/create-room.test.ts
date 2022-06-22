@@ -8,6 +8,8 @@ describe('Tests on the create room route', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 
@@ -39,5 +41,8 @@ describe('Tests on the create room route', () => {
       .auth(accessToken, { type: 'bearer' });
 
     expect(createRoomResponse.status).toEqual(201);
+
+    await prismaClient.room.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });

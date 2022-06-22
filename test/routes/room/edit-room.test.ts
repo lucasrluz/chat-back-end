@@ -9,6 +9,8 @@ describe('Tests on the edit room route', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 
@@ -52,6 +54,7 @@ describe('Tests on the edit room route', () => {
     expect(editRoomResponse.status).toEqual(200);
     expect(editRoomResponse.body).toEqual(editRoomData);
 
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 
@@ -82,5 +85,7 @@ describe('Tests on the edit room route', () => {
 
     expect(editRoomResponse.status).toEqual(404);
     expect(editRoomResponse.body).toEqual('Room not found');
+
+    await prismaClient.user.deleteMany();
   });
 });

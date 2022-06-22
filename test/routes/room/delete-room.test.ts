@@ -9,6 +9,8 @@ describe('Tests on the delete room route ', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 
@@ -75,5 +77,7 @@ describe('Tests on the delete room route ', () => {
 
     expect(deleteRoomResponse.status).toEqual(404);
     expect(deleteRoomResponse.body).toEqual('Room not found');
+
+    await prismaClient.user.deleteMany();
   });
 });

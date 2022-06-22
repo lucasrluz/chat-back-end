@@ -11,6 +11,12 @@ describe('Edit user use case tests', () => {
   const createUserUseCase = new CreateUserUseCase(userRepository);
   const editUserUseCase = new EditUserUseCase(userRepository);
 
+  beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
+    await prismaClient.user.deleteMany();
+  });
+
   it('Should return user edited', async () => {
     const userData = {
       username: 'a',

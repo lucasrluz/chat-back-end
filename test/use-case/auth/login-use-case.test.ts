@@ -10,6 +10,12 @@ describe('Login use case tests', () => {
   const createUserUseCase = new CreateUserUseCase(userRepository);
   const loginUseCase = new LoginUseCase(userRepository);
 
+  beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
+    await prismaClient.user.deleteMany();
+  });
+
   it('Should return access token end refresh token', async () => {
     const userData = {
       username: 'a',

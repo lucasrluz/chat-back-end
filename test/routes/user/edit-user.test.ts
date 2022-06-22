@@ -8,6 +8,8 @@ describe('Tests on the edit user route', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 

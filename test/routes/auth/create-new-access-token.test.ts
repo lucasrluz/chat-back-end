@@ -12,6 +12,8 @@ describe('Tests on create new access token route', () => {
   const prismaClient = new PrismaClient();
 
   beforeAll(async () => {
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
 

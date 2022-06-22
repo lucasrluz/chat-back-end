@@ -94,6 +94,7 @@ describe('Tests on the delete room participant route', () => {
       'Room participant not found',
     );
 
+    await prismaClient.roomParticipant.deleteMany();
     await prismaClient.room.deleteMany();
     await prismaClient.user.deleteMany();
   });
