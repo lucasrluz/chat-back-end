@@ -1,9 +1,12 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { EditUserUseCase } from '../../../src/use-case/user/edit-user-use-case';
-import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Edit user use case tests', () => {
-  const userRepository = new InMemoryUserRepository();
+  const prismaClient = new PrismaClient();
+
+  const userRepository = new PrismaUserRepository();
 
   const createUserUseCase = new CreateUserUseCase(userRepository);
   const editUserUseCase = new EditUserUseCase(userRepository);
@@ -31,7 +34,7 @@ describe('Edit user use case tests', () => {
     expect(editUserResponse.isSuccess()).toEqual(true);
     expect(editUserResponse.value.id).toEqual(createUserResponse.value.id);
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should not edit user', async () => {
@@ -49,7 +52,7 @@ describe('Edit user use case tests', () => {
 
     const editUserData = {
       userId: '',
-      username: 'b',
+      username: 'a',
       password: '123456',
     };
 
@@ -63,7 +66,7 @@ describe('Edit user use case tests', () => {
     expect(editUserResponse.isError()).toEqual(true);
     expect(editUserResponse.value).toEqual('This username already exists');
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should not edit user', async () => {
@@ -88,6 +91,6 @@ describe('Edit user use case tests', () => {
     expect(editUserResponse.isError()).toEqual(true);
     expect(editUserResponse.value).toEqual('Username should not be empty');
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });

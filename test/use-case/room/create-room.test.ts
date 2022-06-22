@@ -1,8 +1,8 @@
+import { PrismaRoomRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-repository';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
-import { InMemoryRoomRepository } from '../../util/in-memory-repositories/in-memory-room-repository';
 
 describe('Create room use case tests', () => {
-  const roomRepository = new InMemoryRoomRepository();
+  const roomRepository = new PrismaRoomRepository();
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
 
   it('Should return new room', async () => {

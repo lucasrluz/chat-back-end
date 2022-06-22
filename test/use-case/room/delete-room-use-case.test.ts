@@ -1,9 +1,9 @@
+import { PrismaRoomRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-repository';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
 import { DeleteRoomUseCase } from '../../../src/use-case/room/delete-room-use-case';
-import { InMemoryRoomRepository } from '../../util/in-memory-repositories/in-memory-room-repository';
 
 describe('Delete room use case', () => {
-  const roomRepository = new InMemoryRoomRepository();
+  const roomRepository = new PrismaRoomRepository();
 
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
   const deleteRoomUseCase = new DeleteRoomUseCase(roomRepository);

@@ -1,15 +1,17 @@
-import { prismaClient } from '../../../src/infra/external/prisma/prisma-client';
+import { PrismaClient } from '@prisma/client';
+import { PrismaRoomParticipantRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-participant-repository';
+import { PrismaRoomRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-repository';
+import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
 import { CreateRoomParticipantUseCase } from '../../../src/use-case/room-participant/create-room-participant-use-case';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { InMemoryRoomParticipantRepository } from '../../util/in-memory-repositories/in-memory-room-participant-repository';
-import { InMemoryRoomRepository } from '../../util/in-memory-repositories/in-memory-room-repository';
-import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Create room participants use case tests', () => {
-  const userRepository = new InMemoryUserRepository();
-  const roomRepository = new InMemoryRoomRepository();
-  const roomParticipantRepository = new InMemoryRoomParticipantRepository();
+  const prismaClient = new PrismaClient();
+
+  const userRepository = new PrismaUserRepository();
+  const roomRepository = new PrismaRoomRepository();
+  const roomParticipantRepository = new PrismaRoomParticipantRepository();
 
   const createUserUseCase = new CreateUserUseCase(userRepository);
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
@@ -19,9 +21,9 @@ describe('Create room participants use case tests', () => {
   );
 
   beforeAll(async () => {
-    await userRepository.deleteMany();
-    await roomRepository.deleteMany();
-    await roomParticipantRepository.deleteMany();
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return new room participants', async () => {
@@ -52,9 +54,9 @@ describe('Create room participants use case tests', () => {
     expect(createRoomParticipantResponse.isSuccess()).toEqual(true);
     expect(createRoomParticipantResponse.value).toEqual(roomParticipantData);
 
-    await roomParticipantRepository.deleteMany();
-    await roomRepository.deleteMany();
-    await userRepository.deleteMany();
+    await prismaClient.roomParticipant.deleteMany();
+    await prismaClient.room.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -80,7 +82,7 @@ describe('Create room participants use case tests', () => {
     expect(createRoomParticipantResponse.isError()).toEqual(true);
     expect(createRoomParticipantResponse.value).toEqual('Room not found');
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {

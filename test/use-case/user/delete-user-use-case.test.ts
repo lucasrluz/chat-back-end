@@ -1,9 +1,9 @@
+import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
 import { DeleteUserUseCase } from '../../../src/use-case/user/delete-user-use-case';
-import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Delete user use case tests', () => {
-  const userRepository = new InMemoryUserRepository();
+  const userRepository = new PrismaUserRepository();
   const deleteUserUseCase = new DeleteUserUseCase(userRepository);
   const createUserUseCase = new CreateUserUseCase(userRepository);
 

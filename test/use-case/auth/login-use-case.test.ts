@@ -1,9 +1,12 @@
+import { PrismaClient } from '@prisma/client';
+import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
 import { LoginUseCase } from '../../../src/use-case/auth/login-use-case';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { InMemoryUserRepository } from '../../util/in-memory-repositories/in-memory-user-repository';
 
 describe('Login use case tests', () => {
-  const userRepository = new InMemoryUserRepository();
+  const prismaClient = new PrismaClient();
+
+  const userRepository = new PrismaUserRepository();
   const createUserUseCase = new CreateUserUseCase(userRepository);
   const loginUseCase = new LoginUseCase(userRepository);
 
@@ -25,7 +28,7 @@ describe('Login use case tests', () => {
 
     expect(response.isSuccess()).toEqual(true);
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -59,6 +62,6 @@ describe('Login use case tests', () => {
     expect(response.isError()).toEqual(true);
     expect(response.value).toEqual('Username or password invalid');
 
-    await userRepository.deleteMany();
+    await prismaClient.user.deleteMany();
   });
 });
