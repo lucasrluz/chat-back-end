@@ -1,19 +1,9 @@
-import { PrismaClient } from '@prisma/client';
-import { compareHashPassword } from '../../../src/infra/external/bcrypt/compare-hash-password';
-import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
 import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
+import { FakeUserRepository } from '../../util/fake-repository/fake-user-repository';
 
 describe('Create user use case tests', () => {
-  const prismaClient = new PrismaClient();
-
-  const userRepository = new PrismaUserRepository();
+  const userRepository = new FakeUserRepository();
   const createUserUseCase = new CreateUserUseCase(userRepository);
-
-  beforeAll(async () => {
-    await prismaClient.roomParticipant.deleteMany();
-    await prismaClient.room.deleteMany();
-    await prismaClient.user.deleteMany();
-  });
 
   it('Should save new user', async () => {
     const userData = {
@@ -21,21 +11,20 @@ describe('Create user use case tests', () => {
       email: 'a@gmail.com',
       password: '123456',
     };
-    const response = await createUserUseCase.perform(userData);
 
-    expect(response.isSuccess()).toEqual(true);
-
-    const user = await userRepository.findById(response.value.id);
-
-    const comprarePassword = await compareHashPassword(
-      userData.password,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      user.password!,
+    jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
+      Promise.resolve({
+        id: undefined,
+        password: undefined,
+      }),
     );
 
-    expect(comprarePassword).toEqual(true);
+    jest
+      .spyOn(userRepository, 'findByEmail')
+      .mockReturnValue(Promise.resolve({ id: undefined }));
 
-    await prismaClient.user.deleteMany();
+    const response = await createUserUseCase.perform(userData);
+    expect(response.isSuccess()).toEqual(true);
   });
 
   it('Should not save user', async () => {
@@ -45,14 +34,19 @@ describe('Create user use case tests', () => {
       password: '123456',
     };
 
+    jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
+      Promise.resolve({
+        id: 'userId',
+        password: 'userPassword',
+      }),
+    );
+
     await createUserUseCase.perform(userData);
 
     const errorResponse = await createUserUseCase.perform(userData);
 
     expect(errorResponse.isError()).toEqual(true);
     expect(errorResponse.value).toEqual('This username already exists');
-
-    await prismaClient.user.deleteMany();
   });
 
   it('Should not save user', async () => {
@@ -68,14 +62,23 @@ describe('Create user use case tests', () => {
       password: '123456',
     };
 
+    jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
+      Promise.resolve({
+        id: undefined,
+        password: undefined,
+      }),
+    );
+
+    jest
+      .spyOn(userRepository, 'findByEmail')
+      .mockReturnValue(Promise.resolve({ id: 'userId' }));
+
     await createUserUseCase.perform(userData1);
 
     const errorResponse = await createUserUseCase.perform(userData2);
 
     expect(errorResponse.isError()).toEqual(true);
     expect(errorResponse.value).toEqual('This email already exists');
-
-    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
@@ -84,6 +87,17 @@ describe('Create user use case tests', () => {
       email: 'a@gmail.com',
       password: '123456',
     };
+
+    jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
+      Promise.resolve({
+        id: undefined,
+        password: undefined,
+      }),
+    );
+
+    jest
+      .spyOn(userRepository, 'findByEmail')
+      .mockReturnValue(Promise.resolve({ id: undefined }));
 
     const response = await createUserUseCase.perform(userData);
 

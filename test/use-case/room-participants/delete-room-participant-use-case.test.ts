@@ -1,58 +1,30 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaRoomParticipantRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-participant-repository';
-import { PrismaRoomRepository } from '../../../src/infra/external/prisma/repositories/prisma-room-repository';
-import { PrismaUserRepository } from '../../../src/infra/external/prisma/repositories/prisma-user-repository';
-import { CreateRoomParticipantUseCase } from '../../../src/use-case/room-participant/create-room-participant-use-case';
 import { DeleteRoomParticipantUseCase } from '../../../src/use-case/room-participant/delete-room-participant-use-case';
 import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
-import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
+import { FakeRoomParticipantRepository } from '../../util/fake-repository/fake-room-participant-repository';
+import { FakeRoomRepository } from '../../util/fake-repository/fake-room-repository';
 
 describe('Delete room participant use case tests', () => {
-  const prismaClient = new PrismaClient();
+  const roomRepository = new FakeRoomRepository();
+  const roomParticipantRepository = new FakeRoomParticipantRepository();
 
-  const userRepository = new PrismaUserRepository();
-  const roomRepository = new PrismaRoomRepository();
-  const roomParticipantRepository = new PrismaRoomParticipantRepository();
-
-  const createUserUseCase = new CreateUserUseCase(userRepository);
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
-  const createRoomParticipantUseCase = new CreateRoomParticipantUseCase(
-    roomParticipantRepository,
-    roomRepository,
-  );
   const deleteRoomParticipantUseCase = new DeleteRoomParticipantUseCase(
     roomParticipantRepository,
   );
 
-  beforeAll(async () => {
-    await prismaClient.roomParticipant.deleteMany();
-    await prismaClient.room.deleteMany();
-    await prismaClient.user.deleteMany();
-  });
-
   it('Should delete room participant', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
-
-    const roomData = {
-      name: 'a',
-    };
-
-    const createUserResponse = await createUserUseCase.perform(userData);
-    const createRoomResponse = await createRoomUseCase.perform(roomData.name);
-
     const roomParticipantData = {
-      roomId: createRoomResponse.value.roomId,
-      userId: createUserResponse.value.id,
+      roomId: 'roomId',
+      userId: 'userId',
     };
 
-    await createRoomParticipantUseCase.perform(
-      roomParticipantData.roomId,
-      roomParticipantData.userId,
-    );
+    jest
+      .spyOn(roomParticipantRepository, 'findByRoomParticipantIdAndRoomId')
+      .mockReturnValue(Promise.resolve({ roomId: 'roomId', userId: 'userId' }));
+
+    jest
+      .spyOn(roomParticipantRepository, 'deleteByRoomParticipantId')
+      .mockReturnValue(Promise.resolve());
 
     const deleteRoomParticipantResponse =
       await deleteRoomParticipantUseCase.perform(
@@ -61,29 +33,19 @@ describe('Delete room participant use case tests', () => {
       );
 
     expect(deleteRoomParticipantResponse.isSuccess()).toEqual(true);
-
-    await prismaClient.room.deleteMany();
-    await prismaClient.user.deleteMany();
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
-
-    const roomData = {
-      name: 'a',
-    };
-
-    const createUserResponse = await createUserUseCase.perform(userData);
-    const createRoomResponse = await createRoomUseCase.perform(roomData.name);
-
     const roomParticipantData = {
-      roomId: createRoomResponse.value.roomId,
-      userId: createUserResponse.value.id,
+      roomId: 'roomId',
+      userId: 'userId',
     };
+
+    jest
+      .spyOn(roomParticipantRepository, 'findByRoomParticipantIdAndRoomId')
+      .mockReturnValue(
+        Promise.resolve({ roomId: undefined, userId: undefined }),
+      );
 
     const deleteRoomParticipantResponse =
       await deleteRoomParticipantUseCase.perform(
@@ -95,9 +57,5 @@ describe('Delete room participant use case tests', () => {
     expect(deleteRoomParticipantResponse.value).toEqual(
       'Room participant not found',
     );
-
-    await prismaClient.roomParticipant.deleteMany();
-    await prismaClient.room.deleteMany();
-    await prismaClient.user.deleteMany();
   });
 });
