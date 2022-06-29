@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import { app } from '../../../src/infra/external/express/app';
-import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
-import { createRoomRequestMethod } from '../../util/request-methods/room-request-methods';
-import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
+import { app } from '../../../../src/infra/external/express/app';
+import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
+import { createRoomRequestMethod } from '../../../util/request-methods/room-request-methods';
+import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on the create room participants route', () => {
   const prismaClient = new PrismaClient();

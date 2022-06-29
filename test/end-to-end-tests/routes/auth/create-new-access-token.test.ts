@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import { app } from '../../../src/infra/external/express/app';
-import { refreshtokens } from '../../../src/use-case/auth/util/refresh-tokens';
-import { sleep } from '../../util/function/sleep';
-import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
-import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
+import { app } from '../../../../src/infra/external/express/app';
+import { refreshtokens } from '../../../../src/use-case/auth/util/refresh-tokens';
+import { sleep } from '../../../util/function/sleep';
+import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 jest.setTimeout(65000);
 

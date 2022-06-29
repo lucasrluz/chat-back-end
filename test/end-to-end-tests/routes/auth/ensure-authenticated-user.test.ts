@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import { app } from '../../../src/infra/external/express/app';
-import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
-import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
+import { app } from '../../../../src/infra/external/express/app';
+import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
+import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on middleware ensure authtenticated user', () => {
   const prismaClient = new PrismaClient();

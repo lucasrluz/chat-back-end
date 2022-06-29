@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import { app } from '../../../src/infra/external/express/app';
-import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
+import { app } from '../../../../src/infra/external/express/app';
+import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on the create user route', () => {
   const prismaClient = new PrismaClient();

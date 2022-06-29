@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import { app } from '../../../src/infra/external/express/app';
-import { loginRequestMethod } from '../../util/request-methods/auth-request-methods';
-import { createRoomParticipantRequestMethod } from '../../util/request-methods/room-participant-request-method';
-import { createRoomRequestMethod } from '../../util/request-methods/room-request-methods';
-import { createUserRequestMethod } from '../../util/request-methods/user-request-methods';
+import { app } from '../../../../src/infra/external/express/app';
+import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
+import { createRoomParticipantRequestMethod } from '../../../util/request-methods/room-participant-request-method';
+import { createRoomRequestMethod } from '../../../util/request-methods/room-request-methods';
+import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on the delete room participant route', () => {
   const prismaClient = new PrismaClient();
