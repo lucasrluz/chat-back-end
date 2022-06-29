@@ -1,6 +1,6 @@
-import { CreateRoomParticipantUseCase } from '../../../src/use-case/room-participant/create-room-participant-use-case';
-import { FakeRoomParticipantRepository } from '../../util/fake-repository/fake-room-participant-repository';
-import { FakeRoomRepository } from '../../util/fake-repository/fake-room-repository';
+import { CreateRoomParticipantUseCase } from '../../../../src/use-case/room-participant/create-room-participant-use-case';
+import { FakeRoomParticipantRepository } from '../../../util/fake-repository/fake-room-participant-repository';
+import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Create room participants use case tests', () => {
   const roomParticipantRepository = new FakeRoomParticipantRepository();

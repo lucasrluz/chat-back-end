@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RoomMessage } from '../../../src/domain/room-message/room-message';
-import { currentDate } from '../../../src/domain/room-message/util/current-date';
+import { RoomMessage } from '../../../../src/domain/room-message/room-message';
+import { currentDate } from '../../../../src/domain/room-message/util/current-date';
 
 describe('Room message tests', () => {
   it('Should return room message', async () => {

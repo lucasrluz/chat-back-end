@@ -1,5 +1,5 @@
-import { DeleteRoomUseCase } from '../../../src/use-case/room/delete-room-use-case';
-import { FakeRoomRepository } from '../../util/fake-repository/fake-room-repository';
+import { DeleteRoomUseCase } from '../../../../src/use-case/room/delete-room-use-case';
+import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Delete room use case', () => {
   const roomRepository = new FakeRoomRepository();

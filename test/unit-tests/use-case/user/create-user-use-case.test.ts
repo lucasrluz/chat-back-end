@@ -1,5 +1,5 @@
-import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { FakeUserRepository } from '../../util/fake-repository/fake-user-repository';
+import { CreateUserUseCase } from '../../../../src/use-case/user/create-user-use-case';
+import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Create user use case tests', () => {
   const userRepository = new FakeUserRepository();

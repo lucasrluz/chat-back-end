@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User } from '../../../src/domain/user/user';
+import { User } from '../../../../src/domain/user/user';
 
 describe('User domain tests', () => {
   it('Should return new user', () => {

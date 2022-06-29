@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { RoomParticipant } from '../../../src/domain/room-participant/room-participant';
+import { RoomParticipant } from '../../../../src/domain/room-participant/room-participant';
 
 describe('Room participant domain tests', () => {
   it('Should create room participants', () => {

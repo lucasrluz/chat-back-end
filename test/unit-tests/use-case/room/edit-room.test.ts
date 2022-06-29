@@ -1,5 +1,5 @@
-import { EditRoomUseCase } from '../../../src/use-case/room/edit-room-use-case';
-import { FakeRoomRepository } from '../../util/fake-repository/fake-room-repository';
+import { EditRoomUseCase } from '../../../../src/use-case/room/edit-room-use-case';
+import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Edit room use case tests', () => {
   const roomRepository = new FakeRoomRepository();

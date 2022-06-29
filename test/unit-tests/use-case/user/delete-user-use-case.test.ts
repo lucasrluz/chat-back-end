@@ -1,6 +1,6 @@
-import { CreateUserUseCase } from '../../../src/use-case/user/create-user-use-case';
-import { DeleteUserUseCase } from '../../../src/use-case/user/delete-user-use-case';
-import { FakeUserRepository } from '../../util/fake-repository/fake-user-repository';
+import { CreateUserUseCase } from '../../../../src/use-case/user/create-user-use-case';
+import { DeleteUserUseCase } from '../../../../src/use-case/user/delete-user-use-case';
+import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Delete user use case tests', () => {
   const userRepository = new FakeUserRepository();

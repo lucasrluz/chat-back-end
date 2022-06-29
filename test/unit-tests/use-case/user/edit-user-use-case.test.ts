@@ -1,5 +1,5 @@
-import { EditUserUseCase } from '../../../src/use-case/user/edit-user-use-case';
-import { FakeUserRepository } from '../../util/fake-repository/fake-user-repository';
+import { EditUserUseCase } from '../../../../src/use-case/user/edit-user-use-case';
+import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Edit user use case tests', () => {
   const userRepository = new FakeUserRepository();

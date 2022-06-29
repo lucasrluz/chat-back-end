@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Room } from '../../../src/domain/room/room';
+import { Room } from '../../../../src/domain/room/room';
 
 describe('Room domain tests', () => {
   it('Should return new room', () => {

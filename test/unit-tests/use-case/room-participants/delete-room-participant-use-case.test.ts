@@ -1,7 +1,7 @@
-import { DeleteRoomParticipantUseCase } from '../../../src/use-case/room-participant/delete-room-participant-use-case';
-import { CreateRoomUseCase } from '../../../src/use-case/room/create-room-use-case';
-import { FakeRoomParticipantRepository } from '../../util/fake-repository/fake-room-participant-repository';
-import { FakeRoomRepository } from '../../util/fake-repository/fake-room-repository';
+import { DeleteRoomParticipantUseCase } from '../../../../src/use-case/room-participant/delete-room-participant-use-case';
+import { CreateRoomUseCase } from '../../../../src/use-case/room/create-room-use-case';
+import { FakeRoomParticipantRepository } from '../../../util/fake-repository/fake-room-participant-repository';
+import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Delete room participant use case tests', () => {
   const roomRepository = new FakeRoomRepository();

@@ -1,6 +1,6 @@
-import { createHashPassword } from '../../../src/infra/external/bcrypt/create-hash-password';
-import { LoginUseCase } from '../../../src/use-case/auth/login-use-case';
-import { FakeUserRepository } from '../../util/fake-repository/fake-user-repository';
+import { createHashPassword } from '../../../../src/infra/external/bcrypt/create-hash-password';
+import { LoginUseCase } from '../../../../src/use-case/auth/login-use-case';
+import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Login use case tests', () => {
   const userRepository = new FakeUserRepository();

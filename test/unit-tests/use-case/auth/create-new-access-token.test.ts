@@ -1,11 +1,11 @@
-import { generateRefreshToken } from '../../../src/infra/external/jsonwebtoken/generate-refresh-token';
+import { generateRefreshToken } from '../../../../src/infra/external/jsonwebtoken/generate-refresh-token';
 import {
   validateAccessToken,
   validateRefreshToken,
-} from '../../../src/infra/external/jsonwebtoken/validate-tokens';
-import { CreateNewAccessTokenUseCase } from '../../../src/use-case/auth/create-new-access-token-use-case';
-import { refreshtokens } from '../../../src/use-case/auth/util/refresh-tokens';
-import { sleep } from '../../util/function/sleep';
+} from '../../../../src/infra/external/jsonwebtoken/validate-tokens';
+import { CreateNewAccessTokenUseCase } from '../../../../src/use-case/auth/create-new-access-token-use-case';
+import { refreshtokens } from '../../../../src/use-case/auth/util/refresh-tokens';
+import { sleep } from '../../../util/function/sleep';
 
 jest.setTimeout(65000);
 
