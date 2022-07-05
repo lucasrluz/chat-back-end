@@ -11,19 +11,21 @@ datasource db {
 }
 
 model User {
-  userId   String @id @default(uuid())
-  username String
-  email    String
-  password String
-  rooms     RoomParticipant[]
+  userId       String            @id @default(uuid())
+  username     String
+  email        String
+  password     String
+  rooms        RoomParticipant[]
+  roomMessages RoomMessage[]
 
   @@map("user_account")
 }
 
 model Room {
-  roomId String @id @default(uuid())
-  name   String
-  users   RoomParticipant[]
+  roomId   String            @id @default(uuid())
+  name     String
+  users    RoomParticipant[]
+  messages RoomMessage[]
 
   @@map("room")
 }
@@ -36,4 +38,14 @@ model RoomParticipant {
 
   @@id([roomId, userId])
   @@map("roomParticipant")
+}
+
+model RoomMessage {
+  roomMessageId String @id @default(uuid())
+  content       String
+  date          DateTime
+  user          User   @relation(fields: [userId], references: [userId])
+  userId        String
+  room          Room   @relation(fields: [roomId], references: [roomId])
+  roomId        String
 }
