@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
+import { ValidRoom } from '../../../util/data/room-data';
+import { ValidUser } from '../../../util/data/user-data';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
 import { createRoomParticipantRequestMethod } from '../../../util/request-methods/room-participant-request-method';
 import { createRoomRequestMethod } from '../../../util/request-methods/room-request-methods';
@@ -16,20 +18,14 @@ describe('Tests on the delete room participant route', () => {
   });
 
   it('Should delete room participant', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
-    const roomData = {
-      name: 'a',
-    };
+    const roomData = new ValidRoom();
 
     const createUserResponse = await createUserRequestMethod(userData);
     const loginResponse = await loginRequestMethod(loginData);
@@ -61,15 +57,11 @@ describe('Tests on the delete room participant route', () => {
   });
 
   it('Should error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);

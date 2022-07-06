@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Room } from '../../../../src/domain/room/room';
+import {
+  RoomWithEmptyName,
+  RoomWithInvalidNameType,
+  ValidRoom,
+} from '../../../util/data/room-data';
 
 describe('Room domain tests', () => {
   it('Should return new room', () => {
-    const roomData = {
-      name: 'a',
-    };
+    const roomData = new ValidRoom();
 
     const roomOrError = Room.create(roomData.name);
 
@@ -14,9 +17,7 @@ describe('Room domain tests', () => {
   });
 
   it('Should return error message', () => {
-    const roomData = {
-      name: '',
-    };
+    const roomData = new RoomWithEmptyName();
 
     const roomOrError = Room.create(roomData.name);
 
@@ -25,11 +26,7 @@ describe('Room domain tests', () => {
   });
 
   it('Should return error message', () => {
-    const name: any = true;
-
-    const roomData = {
-      name: name,
-    };
+    const roomData = new RoomWithInvalidNameType();
 
     const roomOrError = Room.create(roomData.name);
 

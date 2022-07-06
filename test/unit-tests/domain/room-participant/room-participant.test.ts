@@ -1,13 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { RoomParticipant } from '../../../../src/domain/room-participant/room-participant';
+import {
+  RoomParticipantWithEmptyRoomId,
+  RoomParticipantWithEmptyUserId,
+  RoomParticipantWithInvalidRoomIdType,
+  RoomParticipantWithInvalidUserIdType,
+  ValidRoomParticipant,
+} from '../../../util/data/room-participant-data';
 
 describe('Room participant domain tests', () => {
   it('Should create room participants', () => {
-    const roomParticipantData = {
-      roomId: 'roomId',
-      userId: 'userId',
-    };
+    const roomParticipantData = new ValidRoomParticipant();
 
     const roomParticipantOrError = RoomParticipant.create(
       roomParticipantData.roomId,
@@ -20,10 +24,7 @@ describe('Room participant domain tests', () => {
 
   describe('RoomId tests', () => {
     it('Should return error message for creating roomId', () => {
-      const roomParticipantData = {
-        roomId: '',
-        userId: 'userId',
-      };
+      const roomParticipantData = new RoomParticipantWithEmptyRoomId();
 
       const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
@@ -37,12 +38,7 @@ describe('Room participant domain tests', () => {
     });
 
     it('Should return error message for creating roomId', () => {
-      const roomId: any = true;
-
-      const roomParticipantData = {
-        roomId: roomId,
-        userId: 'userId',
-      };
+      const roomParticipantData = new RoomParticipantWithInvalidRoomIdType();
 
       const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
@@ -56,10 +52,7 @@ describe('Room participant domain tests', () => {
 
   describe('UserId tests', () => {
     it('Should return error message for creating userId', () => {
-      const roomParticipantData = {
-        roomId: 'roomId',
-        userId: '',
-      };
+      const roomParticipantData = new RoomParticipantWithEmptyUserId();
 
       const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,
@@ -73,12 +66,7 @@ describe('Room participant domain tests', () => {
     });
 
     it('Should return error message for creating userId', () => {
-      const userId: any = true;
-
-      const roomParticipantData = {
-        roomId: 'roomId',
-        userId: userId,
-      };
+      const roomParticipantData = new RoomParticipantWithInvalidUserIdType();
 
       const roomParticipantOrError = RoomParticipant.create(
         roomParticipantData.roomId,

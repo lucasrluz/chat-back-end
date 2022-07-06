@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
+import { ValidUser } from '../../../util/data/user-data';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on the create user route', () => {
@@ -13,11 +14,7 @@ describe('Tests on the create user route', () => {
   });
 
   it('Should create new user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const response = await request(app).post('/user').send(userData);
 
@@ -27,11 +24,7 @@ describe('Tests on the create user route', () => {
   });
 
   it('Should return status code 400', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     await createUserRequestMethod(userData);
 

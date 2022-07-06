@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
+import { ValidUser } from '../../../util/data/user-data';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
@@ -14,15 +15,11 @@ describe('Tests on the delete user route', () => {
   });
 
   it('Should delete user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);

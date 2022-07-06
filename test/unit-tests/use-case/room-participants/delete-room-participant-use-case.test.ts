@@ -1,5 +1,6 @@
 import { DeleteRoomParticipantUseCase } from '../../../../src/use-case/room-participant/delete-room-participant-use-case';
 import { CreateRoomUseCase } from '../../../../src/use-case/room/create-room-use-case';
+import { ValidRoomParticipant } from '../../../util/data/room-participant-data';
 import { FakeRoomParticipantRepository } from '../../../util/fake-repository/fake-room-participant-repository';
 import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
@@ -13,10 +14,7 @@ describe('Delete room participant use case tests', () => {
   );
 
   it('Should delete room participant', async () => {
-    const roomParticipantData = {
-      roomId: 'roomId',
-      userId: 'userId',
-    };
+    const roomParticipantData = new ValidRoomParticipant();
 
     jest
       .spyOn(roomParticipantRepository, 'findByRoomParticipantIdAndRoomId')
@@ -36,10 +34,7 @@ describe('Delete room participant use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const roomParticipantData = {
-      roomId: 'roomId',
-      userId: 'userId',
-    };
+    const roomParticipantData = new ValidRoomParticipant();
 
     jest
       .spyOn(roomParticipantRepository, 'findByRoomParticipantIdAndRoomId')

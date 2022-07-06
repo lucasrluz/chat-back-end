@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
+import { ValidUser } from '../../../util/data/user-data';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
 describe('Tests on login route', () => {
@@ -13,15 +14,11 @@ describe('Tests on login route', () => {
   });
 
   it('Should return access token and refersh token', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     await createUserRequestMethod(userData);
@@ -34,9 +31,11 @@ describe('Tests on login route', () => {
   });
 
   it('Should return error message', async () => {
+    const userData = new ValidUser();
+
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const response = await request(app).post('/login').send(loginData);
@@ -46,14 +45,10 @@ describe('Tests on login route', () => {
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
+      username: userData.username,
       password: '654321',
     };
 

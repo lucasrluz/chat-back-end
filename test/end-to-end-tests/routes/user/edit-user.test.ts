@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
+import { ValidUser } from '../../../util/data/user-data';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
@@ -14,20 +15,14 @@ describe('Tests on the edit user route', () => {
   });
 
   it('Should edit user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
-    const editUserData = {
-      username: 'b',
-      password: '123456',
-    };
+    const editUserData = new ValidUser();
+    editUserData.username = 'b';
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);
@@ -48,26 +43,20 @@ describe('Tests on the edit user route', () => {
   });
 
   it('Should return error message', async () => {
-    const userData1 = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData1 = new ValidUser();
 
-    const userData2 = {
-      username: 'b',
-      email: 'b@gmail.com',
-      password: '123456',
-    };
+    const userData2 = new ValidUser();
+    userData2.username = 'b';
+    userData2.email = 'b@gmail.com';
 
     const editUserData = {
       username: 'b',
-      password: '123456',
+      password: userData1.password,
     };
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData1.username,
+      password: userData1.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData1);

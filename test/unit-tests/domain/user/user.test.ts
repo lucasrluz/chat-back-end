@@ -1,13 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from '../../../../src/domain/user/user';
+import {
+  UserWithEmptyEmail,
+  UserWithEmptyEmailDomain,
+  UserWithEmptyEmailLocal,
+  UserWithEmptyPassword,
+  UserWithEmptyUsername,
+  UserWithInvalidEmailType,
+  UserWithInvalidPasswordType,
+  UserWithInvalidUsernameType,
+  UserWithSizeEmailDomainLongerThanAllowed,
+  UserWithSizeEmailLocalLongerThanAllowed,
+  ValidUser,
+} from '../../../util/data/user-data';
 
 describe('User domain tests', () => {
   it('Should return new user', () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const userOrError = User.create(
       userData.username,
@@ -21,11 +30,7 @@ describe('User domain tests', () => {
 
   describe('Username tests', () => {
     it('Should return error message for creating username', () => {
-      const userData = {
-        username: '',
-        email: 'a@gmail.com',
-        password: '123456',
-      };
+      const userData = new UserWithEmptyUsername();
 
       const userOrError = User.create(
         userData.username,
@@ -38,13 +43,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating username', () => {
-      const username: any = true;
-
-      const userData = {
-        username: username,
-        email: 'a@gmail.com',
-        password: '123456',
-      };
+      const userData = new UserWithInvalidUsernameType();
 
       const userOrError = User.create(
         userData.username,
@@ -59,11 +58,7 @@ describe('User domain tests', () => {
 
   describe('Email tests', () => {
     it('Should return error message for creating email', () => {
-      const userData = {
-        username: 'a',
-        email: '@gmail.com',
-        password: '123456',
-      };
+      const userData = new UserWithEmptyEmailLocal();
 
       const userOrError = User.create(
         userData.username,
@@ -78,17 +73,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating email', () => {
-      let local = '';
-      while (true) {
-        local += 'a';
-        if (local.length > 64) break;
-      }
-
-      const userData = {
-        username: 'a',
-        email: local + '@gmail.com',
-        password: '123456',
-      };
+      const userData = new UserWithSizeEmailLocalLongerThanAllowed();
 
       const userOrError = User.create(
         userData.username,
@@ -103,11 +88,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating email', () => {
-      const userData = {
-        username: 'a',
-        email: 'a@',
-        password: '123456',
-      };
+      const userData = new UserWithEmptyEmailDomain();
 
       const userOrError = User.create(
         userData.username,
@@ -122,17 +103,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating email', () => {
-      let domain = '';
-      while (true) {
-        domain += 'a';
-        if (domain.length > 255) break;
-      }
-
-      const userData = {
-        username: 'a',
-        email: 'a@' + domain,
-        password: '123456',
-      };
+      const userData = new UserWithSizeEmailDomainLongerThanAllowed();
 
       const userOrError = User.create(
         userData.username,
@@ -147,11 +118,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating email', () => {
-      const userData = {
-        username: 'a',
-        email: '',
-        password: '123456',
-      };
+      const userData = new UserWithEmptyEmail();
 
       const userOrError = User.create(
         userData.username,
@@ -164,12 +131,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating email', () => {
-      const email: any = true;
-      const userData = {
-        username: 'a',
-        email: email,
-        password: '123456',
-      };
+      const userData = new UserWithInvalidEmailType();
 
       const userOrError = User.create(
         userData.username,
@@ -184,11 +146,7 @@ describe('User domain tests', () => {
 
   describe('Password tests', () => {
     it('Should return error message for creating password', () => {
-      const userData = {
-        username: 'a',
-        email: 'a@gmail.com',
-        password: '12345',
-      };
+      const userData = new UserWithEmptyPassword();
 
       const userOrError = User.create(
         userData.username,
@@ -203,13 +161,7 @@ describe('User domain tests', () => {
     });
 
     it('Should return error message for creating password', () => {
-      const password: any = true;
-
-      const userData = {
-        username: 'a',
-        email: 'a@gmail.com',
-        password: password,
-      };
+      const userData = new UserWithInvalidPasswordType();
 
       const userOrError = User.create(
         userData.username,

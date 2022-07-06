@@ -4,6 +4,12 @@ import { createUserRequestMethod } from '../../../util/request-methods/user-requ
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
+import { ValidUser } from '../../../util/data/user-data';
+import { ValidRoom } from '../../../util/data/room-data';
+import {
+  RoomMessageWithEmptyContent,
+  ValidRoomMessage,
+} from '../../../util/data/room-message-data';
 
 describe('Create room message route tests', () => {
   const prismaClient = new PrismaClient();
@@ -16,24 +22,16 @@ describe('Create room message route tests', () => {
   });
 
   it('Should create room message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
-    const roomData = {
-      name: 'a',
-    };
+    const roomData = new ValidRoom();
 
-    const roomMessageData = {
-      content: 'a',
-    };
+    const roomMessageData = new ValidRoomMessage();
 
     const createUserResponse = await createUserRequestMethod(userData);
     const loginResponse = await loginRequestMethod(loginData);
@@ -59,24 +57,16 @@ describe('Create room message route tests', () => {
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
-    const roomData = {
-      name: 'a',
-    };
+    const roomData = new ValidRoom();
 
-    const roomMessageData = {
-      content: '',
-    };
+    const roomMessageData = new RoomMessageWithEmptyContent();
 
     const createUserResponse = await createUserRequestMethod(userData);
     const loginResponse = await loginRequestMethod(loginData);
@@ -105,20 +95,14 @@ describe('Create room message route tests', () => {
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
-    const roomMessageData = {
-      content: 'a',
-    };
+    const roomMessageData = new ValidRoomMessage();
 
     const createUserResponse = await createUserRequestMethod(userData);
     const loginResponse = await loginRequestMethod(loginData);

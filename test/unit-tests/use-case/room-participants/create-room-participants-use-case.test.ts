@@ -1,4 +1,8 @@
 import { CreateRoomParticipantUseCase } from '../../../../src/use-case/room-participant/create-room-participant-use-case';
+import {
+  RoomParticipantWithEmptyRoomId,
+  ValidRoomParticipant,
+} from '../../../util/data/room-participant-data';
 import { FakeRoomParticipantRepository } from '../../../util/fake-repository/fake-room-participant-repository';
 import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
@@ -12,10 +16,7 @@ describe('Create room participants use case tests', () => {
   );
 
   it('Should return new room participants', async () => {
-    const roomParticipantData = {
-      roomId: 'roomId',
-      userId: 'userId',
-    };
+    const roomParticipantData = new ValidRoomParticipant();
 
     jest
       .spyOn(roomRepository, 'findById')
@@ -36,10 +37,7 @@ describe('Create room participants use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const roomParticipantData = {
-      roomId: 'invalidRoomId',
-      userId: 'userId',
-    };
+    const roomParticipantData = new ValidRoomParticipant();
 
     jest
       .spyOn(roomRepository, 'findById')
@@ -56,10 +54,7 @@ describe('Create room participants use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const roomParticipantData = {
-      roomId: '',
-      userId: 'userId',
-    };
+    const roomParticipantData = new RoomParticipantWithEmptyRoomId();
 
     const createRoomParticipantResponse =
       await createRoomParticipantUseCase.perform(

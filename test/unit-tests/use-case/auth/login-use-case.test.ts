@@ -1,5 +1,6 @@
 import { createHashPassword } from '../../../../src/infra/external/bcrypt/create-hash-password';
 import { LoginUseCase } from '../../../../src/use-case/auth/login-use-case';
+import { ValidUser } from '../../../util/data/user-data';
 import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Login use case tests', () => {
@@ -7,9 +8,11 @@ describe('Login use case tests', () => {
   const loginUseCase = new LoginUseCase(userRepository);
 
   it('Should return access token end refresh token', async () => {
+    const userData = new ValidUser();
+
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const password = await createHashPassword(loginData.password);
@@ -24,9 +27,11 @@ describe('Login use case tests', () => {
   });
 
   it('Should return error message', async () => {
+    const userData = new ValidUser();
+
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     jest
@@ -40,8 +45,10 @@ describe('Login use case tests', () => {
   });
 
   it('Should return error message', async () => {
+    const userData = new ValidUser();
+
     const loginData = {
-      username: 'a',
+      username: userData.username,
       password: '654321',
     };
 

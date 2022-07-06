@@ -1,4 +1,5 @@
 import { CreateUserUseCase } from '../../../../src/use-case/user/create-user-use-case';
+import { UserWithEmptyUsername, ValidUser } from '../../../util/data/user-data';
 import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Create user use case tests', () => {
@@ -6,11 +7,7 @@ describe('Create user use case tests', () => {
   const createUserUseCase = new CreateUserUseCase(userRepository);
 
   it('Should save new user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
       Promise.resolve({
@@ -28,11 +25,7 @@ describe('Create user use case tests', () => {
   });
 
   it('Should not save user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
       Promise.resolve({
@@ -50,17 +43,10 @@ describe('Create user use case tests', () => {
   });
 
   it('Should not save user', async () => {
-    const userData1 = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData1 = new ValidUser();
 
-    const userData2 = {
-      username: 'b',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData2 = new ValidUser();
+    userData2.username = 'b';
 
     jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
       Promise.resolve({
@@ -82,11 +68,7 @@ describe('Create user use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: '',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new UserWithEmptyUsername();
 
     jest.spyOn(userRepository, 'findByUsername').mockReturnValue(
       Promise.resolve({

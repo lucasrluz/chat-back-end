@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RoomMessage } from '../../../../src/domain/room-message/room-message';
 import { currentDate } from '../../../../src/domain/room-message/util/current-date';
+import {
+  RoomMessageWithEmptyContent,
+  RoomMessageWithInvalidContentType,
+  ValidRoomMessage,
+} from '../../../util/data/room-message-data';
 
 describe('Room message tests', () => {
   it('Should return room message', async () => {
-    const roomMessageData = {
-      content: 'a',
-      userId: 'userId',
-      roomId: 'roomId',
-    };
+    const roomMessageData = new ValidRoomMessage();
 
     const roomMessageOrError = RoomMessage.create(
       roomMessageData.content,
@@ -27,11 +28,7 @@ describe('Room message tests', () => {
 
   describe('Content tests', () => {
     it('Should return error message', async () => {
-      const roomMessageData = {
-        content: '',
-        userId: 'userId',
-        roomId: 'roomId',
-      };
+      const roomMessageData = new RoomMessageWithEmptyContent();
 
       const roomMessageOrError = RoomMessage.create(
         roomMessageData.content,
@@ -44,13 +41,7 @@ describe('Room message tests', () => {
     });
 
     it('Should return error message', async () => {
-      const content: any = true;
-
-      const roomMessageData = {
-        content: content,
-        userId: 'userId',
-        roomId: 'roomId',
-      };
+      const roomMessageData = new RoomMessageWithInvalidContentType();
 
       const roomMessageOrError = RoomMessage.create(
         roomMessageData.content,

@@ -1,4 +1,5 @@
 import { EditRoomUseCase } from '../../../../src/use-case/room/edit-room-use-case';
+import { RoomWithEmptyName, ValidRoom } from '../../../util/data/room-data';
 import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Edit room use case tests', () => {
@@ -6,9 +7,8 @@ describe('Edit room use case tests', () => {
   const editRoomUseCase = new EditRoomUseCase(roomRepository);
 
   it('Should edit room', async () => {
-    const editRoomData = {
-      name: 'b',
-    };
+    const editRoomData = new ValidRoom();
+    editRoomData.name = 'b';
 
     jest.spyOn(roomRepository, 'findById').mockReturnValue(
       Promise.resolve({
@@ -31,9 +31,8 @@ describe('Edit room use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const editRoomData = {
-      name: 'b',
-    };
+    const editRoomData = new ValidRoom();
+    editRoomData.name = 'b';
 
     jest.spyOn(roomRepository, 'findById').mockReturnValue(
       Promise.resolve({
@@ -52,9 +51,7 @@ describe('Edit room use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const editRoomData = {
-      name: '',
-    };
+    const editRoomData = new RoomWithEmptyName();
 
     jest.spyOn(roomRepository, 'findById').mockReturnValue(
       Promise.resolve({

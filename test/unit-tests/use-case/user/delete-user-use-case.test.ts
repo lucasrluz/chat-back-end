@@ -1,5 +1,6 @@
 import { CreateUserUseCase } from '../../../../src/use-case/user/create-user-use-case';
 import { DeleteUserUseCase } from '../../../../src/use-case/user/delete-user-use-case';
+import { ValidUser } from '../../../util/data/user-data';
 import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Delete user use case tests', () => {
@@ -8,11 +9,7 @@ describe('Delete user use case tests', () => {
   const createUserUseCase = new CreateUserUseCase(userRepository);
 
   it('Should delete user', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     jest.spyOn(userRepository, 'findById').mockReturnValue(
       Promise.resolve({

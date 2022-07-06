@@ -1,4 +1,9 @@
 import { EditUserUseCase } from '../../../../src/use-case/user/edit-user-use-case';
+import {
+  UserWithEmptyPassword,
+  UserWithEmptyUsername,
+  ValidUser,
+} from '../../../util/data/user-data';
 import { FakeUserRepository } from '../../../util/fake-repository/fake-user-repository';
 
 describe('Edit user use case tests', () => {
@@ -7,11 +12,13 @@ describe('Edit user use case tests', () => {
   const editUserUseCase = new EditUserUseCase(userRepository);
 
   it('Should return user edited', async () => {
+    const userData = new ValidUser();
+
     const editUserData = {
       userId: 'userId',
       username: 'b',
-      email: 'a@gmail.com',
-      password: '123456',
+      email: userData.email,
+      password: userData.password,
     };
 
     jest.spyOn(userRepository, 'findById').mockReturnValue(
@@ -37,10 +44,12 @@ describe('Edit user use case tests', () => {
   });
 
   it('Should not edit user', async () => {
+    const userData = new ValidUser();
+
     const editUserData = {
       userId: 'userId',
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     jest.spyOn(userRepository, 'findById').mockReturnValue(
@@ -66,10 +75,12 @@ describe('Edit user use case tests', () => {
   });
 
   it('Should not edit user', async () => {
+    const userData = new UserWithEmptyUsername();
+
     const editUserData = {
       userId: 'userId',
-      username: '',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     jest.spyOn(userRepository, 'findById').mockReturnValue(
@@ -88,18 +99,20 @@ describe('Edit user use case tests', () => {
   });
 
   it('Should not edit user', async () => {
+    const userData = new UserWithEmptyPassword();
+
     const editUserData = {
       userId: 'userId',
-      username: 'username',
-      password: '',
+      username: userData.username,
+      password: userData.password,
     };
 
     jest.spyOn(userRepository, 'findById').mockReturnValue(
       Promise.resolve({
         id: 'userId',
-        username: 'username',
-        email: 'userEmail',
-        password: 'userPassword',
+        username: editUserData.username,
+        email: userData.email,
+        password: '123456',
       }),
     );
 

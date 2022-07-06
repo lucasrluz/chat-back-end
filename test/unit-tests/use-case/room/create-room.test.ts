@@ -1,4 +1,5 @@
 import { CreateRoomUseCase } from '../../../../src/use-case/room/create-room-use-case';
+import { RoomWithEmptyName, ValidRoom } from '../../../util/data/room-data';
 import { FakeRoomRepository } from '../../../util/fake-repository/fake-room-repository';
 
 describe('Create room use case tests', () => {
@@ -6,9 +7,7 @@ describe('Create room use case tests', () => {
   const createRoomUseCase = new CreateRoomUseCase(roomRepository);
 
   it('Should return new room', async () => {
-    const roomData = {
-      name: 'a',
-    };
+    const roomData = new ValidRoom();
 
     jest
       .spyOn(roomRepository, 'create')
@@ -23,9 +22,7 @@ describe('Create room use case tests', () => {
   });
 
   it('Should return error message', async () => {
-    const roomData = {
-      name: '',
-    };
+    const roomData = new RoomWithEmptyName();
 
     const response = await createRoomUseCase.perform(roomData.name);
 

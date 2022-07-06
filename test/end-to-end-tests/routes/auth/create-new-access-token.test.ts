@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
 import { refreshtokens } from '../../../../src/use-case/auth/util/refresh-tokens';
+import { ValidUser } from '../../../util/data/user-data';
 import { sleep } from '../../../util/function/sleep';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
@@ -18,15 +19,11 @@ describe('Tests on create new access token route', () => {
   });
 
   it('Should return new access token and new refresh token', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);
@@ -43,15 +40,11 @@ describe('Tests on create new access token route', () => {
   });
 
   it('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);
@@ -70,15 +63,11 @@ describe('Tests on create new access token route', () => {
   });
 
   it.skip('Should return error message', async () => {
-    const userData = {
-      username: 'a',
-      email: 'a@gmail.com',
-      password: '123456',
-    };
+    const userData = new ValidUser();
 
     const loginData = {
-      username: 'a',
-      password: '123456',
+      username: userData.username,
+      password: userData.password,
     };
 
     const createUserResponse = await createUserRequestMethod(userData);
