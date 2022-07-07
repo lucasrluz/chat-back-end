@@ -42,6 +42,34 @@ describe('Tests on the edit user route', () => {
     await prismaClient.user.deleteMany();
   });
 
+  it('Should edit user', async () => {
+    const userData = new ValidUser();
+
+    const editUserData = new ValidUser();
+    editUserData.password = '654321';
+
+    const loginData = {
+      username: userData.username,
+      password: userData.password,
+    };
+
+    const createUserResponse = await createUserRequestMethod(userData);
+
+    const loginDataResponse = await loginRequestMethod(loginData);
+
+    const accessToken = loginDataResponse.body.accessToken;
+
+    const response = await request(app)
+      .put(`/user/${createUserResponse.body.id}`)
+      .auth(accessToken, { type: 'bearer' })
+      .send(editUserData);
+
+    expect(response.status).toEqual(200);
+    expect(response.body.id).toEqual(createUserResponse.body.id);
+
+    await prismaClient.user.deleteMany();
+  });
+
   it('Should return error message', async () => {
     const userData1 = new ValidUser();
 

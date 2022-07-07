@@ -19,3 +19,27 @@ export class RoomMessageWithInvalidContentType {
   userId = validRoomMessage.userId;
   roomId = validRoomMessage.roomId;
 }
+
+export class RoomMessageWithEmptyUserId {
+  content = validRoomMessage.content;
+  userId = '';
+  roomId = validRoomMessage.roomId;
+}
+
+export class RoomMessageWithInvalidUserIdType {
+  content = validRoomMessage.content;
+  userId: any = true;
+  roomId = validRoomMessage.roomId;
+}
+
+export class RoomMessageWithEmptyRoomId {
+  content = validRoomMessage.content;
+  userId = validRoomMessage.userId;
+  roomId = '';
+}
+
+export class RoomMessageWithInvalidRoomIdType {
+  content = validRoomMessage.content;
+  userId = validRoomMessage.roomId;
+  roomId: any = true;
+}

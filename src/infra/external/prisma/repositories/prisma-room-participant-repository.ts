@@ -17,17 +17,6 @@ export class PrismaRoomParticipantRepository
     };
   }
 
-  public async findByRoomId(roomId: string) {
-    const response = await this.prismaClient.roomParticipant.findFirst({
-      where: { roomId: roomId },
-    });
-
-    return {
-      roomId: response?.roomId,
-      userId: response?.userId,
-    };
-  }
-
   public async findByRoomParticipantIdAndRoomId(
     roomParticipantId: string,
     roomId: string,
