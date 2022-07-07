@@ -5,9 +5,8 @@ import {
 } from '../../../../src/infra/external/jsonwebtoken/validate-tokens';
 import { CreateNewAccessTokenUseCase } from '../../../../src/use-case/auth/create-new-access-token-use-case';
 import { refreshtokens } from '../../../../src/use-case/auth/util/refresh-tokens';
-import { sleep } from '../../../util/function/sleep';
 
-jest.setTimeout(65000);
+jest.useFakeTimers();
 
 describe('Create new access token tests', () => {
   const createNewAccessTokenUseCase = new CreateNewAccessTokenUseCase();
@@ -51,12 +50,12 @@ describe('Create new access token tests', () => {
     expect(response.value).toEqual('Token invalid');
   });
 
-  it.skip('Should return error message', async () => {
+  it('Should return error message', async () => {
     const refreshToken = generateRefreshToken('0');
 
     refreshtokens.push(refreshToken);
 
-    await sleep(60100);
+    jest.advanceTimersByTime(60000);
 
     const response = await createNewAccessTokenUseCase.perform(
       refreshToken,

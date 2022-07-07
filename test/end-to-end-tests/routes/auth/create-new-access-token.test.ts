@@ -3,11 +3,10 @@ import request from 'supertest';
 import { app } from '../../../../src/infra/external/express/app';
 import { refreshtokens } from '../../../../src/use-case/auth/util/refresh-tokens';
 import { ValidUser } from '../../../util/data/user-data';
-import { sleep } from '../../../util/function/sleep';
 import { loginRequestMethod } from '../../../util/request-methods/auth-request-methods';
 import { createUserRequestMethod } from '../../../util/request-methods/user-request-methods';
 
-jest.setTimeout(65000);
+jest.useFakeTimers();
 
 describe('Tests on create new access token route', () => {
   const prismaClient = new PrismaClient();
@@ -62,7 +61,7 @@ describe('Tests on create new access token route', () => {
     refreshtokens.splice(0, refreshtokens.length);
   });
 
-  it.skip('Should return error message', async () => {
+  it('Should return error message', async () => {
     const userData = new ValidUser();
 
     const loginData = {
@@ -74,7 +73,7 @@ describe('Tests on create new access token route', () => {
 
     const loginDataResponse = await request(app).post('/login').send(loginData);
 
-    await sleep(60000);
+    jest.advanceTimersByTime(60000);
 
     const createNewAccessTokenResponse = await request(app)
       .post(`/token/${createUserResponse.body.id}`)
